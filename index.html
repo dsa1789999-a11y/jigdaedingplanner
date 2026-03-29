@@ -1,0 +1,2444 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>직대딩플래너 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=Noto+Serif+KR:wght@400;600;700;900&family=IBM+Plex+Mono:wght@400;500;600&family=Gowun+Dodum&family=Black+Han+Sans&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   DESIGN SYSTEM — BRIGHT MODERN CLEAN
+═══════════════════════════════════════════════ */
+:root {
+  --white:#ffffff; --bg:#f4f6fb; --bg2:#eef1f8;
+  --s1:#ffffff; --s2:#f8faff; --s3:#f0f3fb;
+  --border:#e2e8f4; --border2:#ccd5ef;
+  --tx:#0f1733; --tx2:#3a4468; --mu:#7b87a8; --mu2:#9ba8c4;
+  --blue:#3b6ef0; --blue2:#5585f5; --blue-a:rgba(59,110,240,.10);
+  --blue-aa:rgba(59,110,240,.06);
+  --gold:#d4920a; --gold2:#f5a623; --gold-a:rgba(212,146,10,.10);
+  --red:#e53e6e; --red-a:rgba(229,62,110,.09);
+  --green:#16a34a; --green-a:rgba(22,163,74,.09);
+  --amber:#d97706; --amber-a:rgba(217,119,6,.09);
+  --purple:#7c3aed; --purple-a:rgba(124,58,237,.09);
+  --radius:14px; --radius-sm:8px; --radius-lg:20px;
+  --shadow:0 2px 12px rgba(59,110,240,.08);
+  --shadow-md:0 8px 32px rgba(59,110,240,.13);
+  --shadow-lg:0 20px 60px rgba(59,110,240,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Gowun Dodum',sans-serif;min-height:100vh;overflow:hidden;-webkit-font-smoothing:antialiased;word-break:keep-all;letter-spacing:-.01em;}
+@media(max-width:768px){body{overflow:auto!important;}}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:5px;}
+::-webkit-scrollbar-thumb:hover{background:var(--mu2);}
+
+/* ═══ TOP BAR ═══ */
+.topbar {
+  height:58px;background:var(--white);border-bottom:1.5px solid var(--border);
+  display:flex;align-items:center;padding:0 20px;gap:0;
+  position:sticky;top:0;z-index:500;
+  box-shadow:0 1px 8px rgba(59,110,240,.07);
+}
+.topbar-brand {display:flex;align-items:center;gap:10px;padding-right:20px;border-right:1.5px solid var(--border);}
+.tb-seal {
+  width:34px;height:34px;border-radius:9px;
+  background:linear-gradient(135deg,var(--blue),#5b4cf5);
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:900;color:#fff;font-family:'Noto Serif KR',serif;
+  text-align:center;line-height:1.15;
+}
+.tb-logo-wrap {
+  width:34px;height:34px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+}
+.tb-uni {font-size:14px;font-weight:800;color:var(--tx);font-family:'Black Han Sans',sans-serif;letter-spacing:.3px;}
+.tb-uni span {color:var(--blue);}
+.tb-sub {font-size:10px;color:var(--mu);font-family:'IBM Plex Mono',monospace;margin-top:1px;}
+.topbar-tabs {display:flex;align-items:center;gap:2px;padding:0 16px;flex:1;}
+.tb-tab {
+  padding:6px 18px;border-radius:8px;border:none;background:transparent;
+  color:var(--mu);font-size:12px;font-weight:700;cursor:pointer;
+  font-family:'Gowun Dodum',sans-serif;transition:all .18s;
+  display:flex;align-items:center;gap:6px;
+}
+.tb-tab:hover{background:var(--bg);color:var(--tx);}
+.tb-tab.active{background:var(--blue-a);color:var(--blue);}
+.tb-badge {
+  font-size:10px;font-weight:800;padding:1px 6px;border-radius:10px;
+  background:var(--blue);color:#fff;
+}
+.tb-tab.active .tb-badge{background:var(--blue);}
+.topbar-right {display:flex;align-items:center;gap:8px;margin-left:auto;}
+.user-chip {
+  display:flex;align-items:center;gap:8px;padding:5px 12px 5px 6px;
+  border-radius:20px;background:var(--bg);border:1.5px solid var(--border);
+}
+.user-av {
+  width:26px;height:26px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blue),#5b4cf5);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:900;color:#fff;
+}
+.user-name {font-size:12px;font-weight:700;color:var(--tx);}
+.tb-logout {
+  padding:5px 12px;border-radius:8px;border:1.5px solid var(--border);
+  background:transparent;color:var(--mu);font-size:11px;font-weight:600;
+  cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .15s;
+}
+.tb-logout:hover{background:var(--red-a);color:var(--red);border-color:var(--red);}
+
+/* ═══ VIEWS ═══ */
+.view {display:none;height:calc(100dvh - 58px);overflow:hidden;}
+@supports not (height:100dvh){.view{height:calc(100vh - 58px);}}
+.view.active {display:flex;}
+#reg-view {flex-direction:row;}
+
+/* ═══ REGISTRATION LEFT ═══ */
+.reg-left {
+  flex:1;display:flex;flex-direction:column;
+  border-right:1.5px solid var(--border);overflow:hidden;background:var(--white);
+}
+.reg-toolbar {
+  padding:14px 16px;border-bottom:1.5px solid var(--border);
+  background:var(--white);display:flex;align-items:center;gap:8px;flex-shrink:0;
+}
+.reg-search {
+  flex:1;padding:9px 14px;border-radius:var(--radius-sm);
+  border:1.5px solid var(--border);background:var(--bg);
+  color:var(--tx);font-size:13px;font-family:'Noto Sans KR',sans-serif;outline:none;
+  transition:all .18s;
+}
+.reg-search:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 3px var(--blue-a);}
+.reg-search::placeholder{color:var(--mu2);}
+.dept-filter {
+  padding:9px 12px;border-radius:var(--radius-sm);border:1.5px solid var(--border);
+  background:var(--bg);color:var(--tx2);font-size:12px;font-weight:600;
+  font-family:'Noto Sans KR',sans-serif;cursor:pointer;outline:none;
+  transition:border .18s;
+}
+.dept-filter:focus{border-color:var(--blue);}
+.reg-list {flex:1;overflow-y:auto;padding:12px;}
+
+/* ═══ COURSE CARD ═══ */
+.ccard {
+  display:flex;align-items:center;gap:12px;padding:13px 14px;
+  border-radius:var(--radius-sm);border:1.5px solid var(--border);
+  background:var(--white);margin-bottom:6px;cursor:pointer;transition:all .15s;
+}
+.ccard:hover{border-color:var(--blue);background:var(--blue-aa);box-shadow:var(--shadow);}
+.ccard.selected{border-color:var(--blue);background:var(--blue-a);}
+.ccard.conflict{border-color:#fbbf24;background:#fffbeb;cursor:default;opacity:.7;}
+.cc-check {
+  width:20px;height:20px;border-radius:5px;border:2px solid var(--border2);
+  flex-shrink:0;position:relative;transition:all .15s;
+}
+.ccard.selected .cc-check {
+  background:var(--blue);border-color:var(--blue);
+}
+.ccard.selected .cc-check::after {
+  content:'✓';position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:center;font-size:11px;font-weight:900;color:#fff;
+}
+.cc-info {flex:1;min-width:0;}
+.cc-name {font-size:13px;font-weight:700;margin-bottom:3px;display:flex;align-items:center;gap:6px;color:var(--tx);}
+.cc-name-text {overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.cc-tag {font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;flex-shrink:0;}
+.tag-on {background:rgba(22,163,74,.12);color:#15803d;}
+.tag-off {background:rgba(100,116,139,.1);color:#64748b;}
+.tag-team {background:rgba(124,58,237,.1);color:#7c3aed;}
+.cc-meta {font-size:11px;color:var(--mu);font-family:'IBM Plex Mono',monospace;line-height:1.7;}
+.cc-conflict-label {
+  font-size:9px;color:var(--amber);font-family:'IBM Plex Mono',monospace;
+  background:var(--amber-a);padding:2px 6px;border-radius:4px;margin-top:3px;display:inline-block;font-weight:600;
+}
+.cc-credit {
+  font-size:16px;font-weight:900;color:var(--blue);font-family:'IBM Plex Mono',monospace;
+  flex-shrink:0;text-align:right;
+}
+.cc-credit span {font-size:10px;font-weight:500;color:var(--mu);}
+
+/* ═══ REGISTRATION RIGHT PANEL ═══ */
+.reg-right {
+  width:296px;display:flex;flex-direction:column;
+  background:var(--bg);flex-shrink:0;border-left:0;
+}
+.reg-panel-hdr {
+  padding:16px 16px 12px;border-bottom:1.5px solid var(--border);
+  background:var(--white);flex-shrink:0;
+}
+.reg-panel-title {font-size:14px;font-weight:800;margin-bottom:2px;color:var(--tx);}
+.reg-panel-sub {font-size:11px;color:var(--mu);margin-bottom:10px;}
+.reg-credit-bar {background:var(--bg2);border-radius:4px;height:6px;overflow:hidden;}
+.reg-credit-fill {height:100%;border-radius:4px;transition:width .3s;background:linear-gradient(90deg,var(--blue),var(--blue2));}
+.reg-credit-label {
+  display:flex;justify-content:space-between;
+  font-size:10px;color:var(--mu);font-family:'IBM Plex Mono',monospace;margin-top:5px;
+}
+.reg-credit-num {font-size:13px;font-weight:800;color:var(--blue);}
+
+.timetable-wrap {
+  padding:10px 12px;border-bottom:1.5px solid var(--border);
+  flex-shrink:0;background:var(--white);
+}
+.timetable-title {
+  font-size:9px;color:var(--mu);font-family:'IBM Plex Mono',monospace;
+  letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;font-weight:600;
+}
+.timetable {display:grid;grid-template-columns:22px repeat(6,1fr);font-size:8px;font-family:'IBM Plex Mono',monospace;}
+.tt-hdr {text-align:center;color:var(--mu);padding:2px 0;border-bottom:1px solid var(--border);font-size:9px;font-weight:600;}
+.tt-period {color:var(--mu2);text-align:right;padding-right:3px;font-size:7px;}
+.tt-cell {height:12px;border-radius:2px;margin:1px;transition:background .15s;}
+
+.reg-selected-list {flex:1;overflow-y:auto;padding:10px 12px;}
+.sel-empty {
+  font-size:12px;color:var(--mu);text-align:center;padding:32px 0;
+  font-family:'IBM Plex Mono',monospace;
+}
+.sel-item {
+  display:flex;align-items:center;gap:8px;padding:9px 10px;
+  border-radius:var(--radius-sm);border:1.5px solid var(--border);
+  background:var(--white);margin-bottom:6px;transition:box-shadow .15s;
+}
+.sel-item:hover{box-shadow:var(--shadow);}
+.sel-dot {width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+.sel-info {flex:1;min-width:0;}
+.sel-name {font-size:11px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--tx);}
+.sel-prof {font-size:10px;color:var(--mu);font-family:'IBM Plex Mono',monospace;margin-top:1px;}
+.sel-remove {
+  width:20px;height:20px;border-radius:5px;border:1.5px solid var(--border);
+  background:transparent;color:var(--mu);cursor:pointer;font-size:11px;
+  display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;
+}
+.sel-remove:hover{background:var(--red-a);color:var(--red);border-color:var(--red);}
+
+.reg-confirm-area {
+  padding:12px 14px 16px;border-top:1.5px solid var(--border);
+  flex-shrink:0;background:var(--white);
+}
+.reg-confirm-btn {
+  width:100%;padding:12px;border-radius:var(--radius-sm);border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--blue),var(--blue2));
+  color:#fff;font-size:13px;font-weight:800;
+  font-family:'Gowun Dodum',sans-serif;transition:all .2s;
+  box-shadow:0 4px 14px rgba(59,110,240,.3);
+}
+.reg-confirm-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(59,110,240,.4);}
+.reg-confirm-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.reg-warn {
+  font-size:10px;color:var(--red);font-family:'IBM Plex Mono',monospace;
+  text-align:center;margin-top:8px;min-height:14px;
+}
+
+/* ═══ CAL VIEW ═══ */
+#cal-view {flex-direction:column!important;height:calc(100dvh - 58px);}
+@supports not (height:100dvh){#cal-view{height:calc(100vh - 58px);}}
+.cal-controls {
+  padding:10px 20px;background:var(--white);
+  border-bottom:1.5px solid var(--border);flex-shrink:0;
+  display:flex;align-items:center;flex-wrap:wrap;gap:8px;
+  box-shadow:0 1px 6px rgba(59,110,240,.05);
+}
+.sem-badge {
+  padding:4px 12px;border-radius:20px;
+  background:var(--blue-a);border:1.5px solid rgba(59,110,240,.2);
+  font-size:11px;color:var(--blue);font-family:'IBM Plex Mono',monospace;font-weight:600;
+}
+.month-nav {display:flex;gap:3px;}
+.month-btn {
+  padding:5px 14px;border-radius:7px;border:1.5px solid var(--border);
+  background:transparent;color:var(--mu);font-size:12px;font-weight:700;
+  font-family:'Gowun Dodum',sans-serif;cursor:pointer;transition:all .15s;
+}
+.month-btn:hover{background:var(--bg);color:var(--tx);border-color:var(--border2);}
+.month-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 2px 8px rgba(59,110,240,.3);}
+.type-filters {display:flex;gap:4px;}
+.type-btn {
+  padding:4px 10px;border-radius:16px;border:1.5px solid var(--border);
+  background:transparent;font-size:10px;color:var(--mu);
+  font-family:'IBM Plex Mono',monospace;cursor:pointer;transition:all .15s;font-weight:600;
+}
+.type-btn:hover{border-color:var(--border2);color:var(--tx);}
+.type-btn.active{font-weight:700;}
+.type-btn[data-type="all"].active{background:var(--tx);color:#fff;border-color:var(--tx);}
+.type-btn[data-type="출석"].active{background:rgba(59,130,246,.12);color:#2563eb;border-color:rgba(59,130,246,.4);}
+.type-btn[data-type="화상"].active{background:rgba(124,58,237,.1);color:#7c3aed;border-color:rgba(124,58,237,.4);}
+.type-btn[data-type="VOD"].active{background:rgba(100,116,139,.1);color:#475569;border-color:rgba(100,116,139,.4);}
+.type-btn[data-type="중간"].active{background:rgba(217,119,6,.1);color:#b45309;border-color:rgba(217,119,6,.4);}
+.type-btn[data-type="기말"].active{background:var(--red-a);color:var(--red);border-color:var(--red);}
+.bell-btn {
+  position:relative;padding:7px 13px;border-radius:9px;
+  border:1.5px solid var(--border);background:transparent;color:var(--mu);
+  cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:6px;
+  font-size:11px;font-family:'IBM Plex Mono',monospace;white-space:nowrap;font-weight:600;
+}
+.bell-btn:hover{background:var(--bg);color:var(--tx);}
+.bell-btn.has-urgent{border-color:var(--red);color:var(--red);animation:bellShake 2.5s ease infinite;}
+@keyframes bellShake{0%,90%,100%{transform:rotate(0)}92%{transform:rotate(-8deg)}94%{transform:rotate(8deg)}96%{transform:rotate(-5deg)}98%{transform:rotate(5deg)}}
+.bell-badge {
+  position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;border-radius:9px;
+  background:var(--red);color:#fff;font-size:10px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'IBM Plex Mono',monospace;padding:0 4px;border:2px solid var(--white);
+}
+
+.cal-body {display:grid;grid-template-columns:200px 1fr;flex:1;overflow:hidden;min-height:0;height:100%;}
+.cal-body > #week-grid-wrap {grid-column:2/3;overflow-y:auto;height:100%;}
+
+/* ═══ SIDEBAR ═══ */
+.sidebar {
+  border-right:1.5px solid var(--border);padding:14px 12px;overflow-y:auto;
+  background:var(--white);scrollbar-width:thin;min-width:0;
+}
+.sb-sec {margin-bottom:18px;}
+.sb-title {
+  font-size:9px;font-weight:700;letter-spacing:2.5px;color:var(--mu);
+  text-transform:uppercase;font-family:'IBM Plex Mono',monospace;margin-bottom:8px;
+  padding-bottom:5px;border-bottom:1.5px solid var(--border);
+}
+.sb-row {display:flex;gap:4px;margin-bottom:8px;}
+.sb-btn {
+  flex:1;padding:5px 6px;border-radius:6px;border:1.5px solid var(--border);
+  background:transparent;color:var(--mu);font-size:10px;font-family:'IBM Plex Mono',monospace;
+  cursor:pointer;transition:all .15s;font-weight:600;
+}
+.sb-btn:hover{background:var(--blue-a);color:var(--blue);border-color:var(--blue);}
+.subj-toggle {
+  display:flex;align-items:center;gap:8px;width:100%;
+  padding:7px 8px;border-radius:7px;border:none;background:transparent;
+  cursor:pointer;transition:background .15s;margin-bottom:2px;
+}
+.subj-toggle:hover{background:var(--bg);}
+.subj-toggle.off{opacity:.35;}
+.sdot {width:9px;height:9px;border-radius:3px;flex-shrink:0;}
+.s-texts {flex:1;text-align:left;min-width:0;}
+.slabel {font-size:12px;color:var(--tx);font-weight:700;letter-spacing:-.02em;font-family:'Gowun Dodum',sans-serif;}
+.sprof {font-size:10px;color:var(--mu);font-family:'IBM Plex Mono',monospace;margin-top:1px;}
+.scnt {font-size:10px;color:var(--mu2);font-family:'IBM Plex Mono',monospace;flex-shrink:0;}
+.leg-row {display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.leg-bar {width:14px;height:5px;border-radius:2px;}
+.leg-txt {font-size:10px;color:var(--mu);font-family:'IBM Plex Mono',monospace;}
+
+/* ═══ CALENDAR ═══ */
+.cal-wrap {overflow-y:auto;padding:16px 18px;background:var(--bg);height:100%;}
+.cal-month-title {display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.cal-month-label {font-size:20px;font-weight:900;color:var(--tx);font-family:'Black Han Sans',sans-serif;letter-spacing:.5px;}
+.cal-month-label em {color:var(--blue);font-style:normal;}
+.cal-month-line {flex:1;height:1.5px;background:var(--border);}
+.cal-month-count {
+  font-size:10px;color:var(--mu);font-family:'IBM Plex Mono',monospace;
+  padding:3px 10px;border-radius:20px;background:var(--white);
+  border:1.5px solid var(--border);font-weight:600;
+}
+.cal-grid {
+  display:grid;grid-template-columns:repeat(7,1fr);
+  border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;
+  background:var(--white);box-shadow:var(--shadow);
+}
+.day-hdr {
+  background:var(--bg);padding:8px 0;text-align:center;
+  font-size:10px;font-weight:700;color:var(--mu);
+  font-family:'Gowun Dodum',sans-serif;border-bottom:1.5px solid var(--border);letter-spacing:.5px;
+}
+.day-hdr:not(:last-child){border-right:1.5px solid var(--border);}
+.day-hdr.sat{color:var(--blue);}.day-hdr.sun{color:var(--red);}
+.day-cell {
+  min-height:96px;padding:6px 5px 4px;border-bottom:1.5px solid var(--border);
+  background:var(--white);transition:background .12s;position:relative;
+}
+.day-cell:not(:nth-child(7n)){border-right:1.5px solid var(--border);}
+.day-cell.other{background:var(--bg2);opacity:.45;}
+.day-cell.today{background:rgba(59,110,240,.04);}
+.day-cell:not(.other):hover{background:var(--bg);}
+.day-cell.sat .day-n{color:var(--blue)!important;}
+.day-cell.sun .day-n{color:var(--red)!important;}
+.day-n {
+  font-size:11px;font-weight:700;font-family:'Gowun Dodum',sans-serif;
+  width:22px;height:22px;display:flex;align-items:center;justify-content:center;
+  border-radius:50%;flex-shrink:0;color:var(--tx2);
+}
+.today .day-n{background:var(--blue);color:#fff;}
+.epill {
+  display:flex;align-items:center;gap:3px;padding:2px 5px;border-radius:4px;
+  margin-bottom:2px;font-size:9px;font-weight:700;cursor:pointer;
+  transition:filter .12s;overflow:hidden;line-height:1.3;white-space:nowrap;
+  font-family:'Gowun Dodum',sans-serif;
+}
+.epill:hover{filter:brightness(.92);}
+.epill .edot {width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.epill .etxt {overflow:hidden;text-overflow:ellipsis;flex:1;}
+.epill .etime {font-size:8px;font-family:'IBM Plex Mono',monospace;margin-left:auto;opacity:.7;flex-shrink:0;}
+.pill-출석{background:rgba(37,99,235,.12);color:#1d4ed8;}
+.pill-화상{background:rgba(124,58,237,.1);color:#6d28d9;}
+.pill-중간{background:rgba(217,119,6,.12);color:#b45309;}
+.pill-기말{background:var(--red-a);color:#c02050;}
+.vod-strip {
+  display:flex;align-items:center;height:11px;padding:0 4px;border-radius:2px;
+  margin-bottom:2px;font-size:8px;font-weight:600;cursor:pointer;
+  transition:filter .12s;overflow:hidden;white-space:nowrap;
+  font-family:'IBM Plex Mono',monospace;border-left:2px solid transparent;
+}
+.vod-strip:hover{filter:brightness(.93);}
+.vod-strip .vshort{overflow:hidden;text-overflow:ellipsis;flex:1;}
+.epill.subj-off,.vod-strip.subj-off,.epill.type-off,.vod-strip.type-off{display:none;}
+.vod-divider{height:1px;background:var(--border);margin:2px 0;}
+.vod-divider.hidden{display:none;}
+
+/* ═══ SHIFT PILLS ═══ */
+.shift-pill {
+  display:flex;align-items:center;gap:3px;padding:2px 6px;border-radius:4px;
+  margin-bottom:2px;font-size:9px;font-weight:700;cursor:pointer;
+  font-family:'IBM Plex Mono',monospace;line-height:1.4;transition:filter .12s;
+  border-left:2px solid transparent;
+}
+.shift-pill:hover{filter:brightness(.92);}
+.shift-D      {background:rgba(14,165,233,.1);color:#0369a1;border-left-color:#0ea5e9;}
+.shift-D특근  {background:rgba(14,165,233,.15);color:#0369a1;border-left-color:#f59e0b;}
+.shift-S      {background:rgba(249,115,22,.1);color:#c2410c;border-left-color:#f97316;}
+.shift-S특근  {background:rgba(249,115,22,.15);color:#c2410c;border-left-color:#f59e0b;}
+.shift-G      {background:rgba(124,58,237,.1);color:#6d28d9;border-left-color:#7c3aed;}
+.shift-G특근  {background:rgba(124,58,237,.15);color:#6d28d9;border-left-color:#f59e0b;}
+.shift-G지근  {background:rgba(100,116,139,.1);color:#475569;border-left-color:#94a3b8;}
+.shift-연     {background:rgba(22,163,74,.1);color:#15803d;border-left-color:#16a34a;}
+.shift-T      {background:rgba(59,110,240,.1);color:#1d4ed8;border-left-color:#3b6ef0;}
+.shift-교육   {background:rgba(234,179,8,.12);color:#a16207;border-left-color:#eab308;}
+.shift-custom  {background:rgba(124,58,237,.12);color:#6d28d9;border-left-color:#7c3aed;}
+
+/* ═══ D-DAY PANEL ═══ */
+.dday-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,51,.35);z-index:400;backdrop-filter:blur(2px);}
+.dday-overlay.show{display:block;}
+.dday-panel {
+  position:fixed;top:0;right:0;bottom:0;width:380px;max-width:100vw;
+  background:var(--white);border-left:1.5px solid var(--border);
+  z-index:401;display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);
+  box-shadow:-8px 0 40px rgba(59,110,240,.12);
+}
+.dday-panel.open{transform:translateX(0);}
+.dday-hdr {
+  padding:16px 18px 12px;border-bottom:1.5px solid var(--border);
+  background:var(--white);flex-shrink:0;
+}
+.dday-hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.dday-hdr h2{font-size:14px;font-weight:900;display:flex;align-items:center;gap:7px;color:var(--tx);}
+.dday-close {
+  width:28px;height:28px;border-radius:8px;border:1.5px solid var(--border);
+  background:transparent;color:var(--mu);cursor:pointer;font-size:14px;
+  display:flex;align-items:center;justify-content:center;transition:all .15s;
+}
+.dday-close:hover{background:var(--bg);color:var(--tx);}
+.sem-progress{background:var(--bg2);border-radius:4px;height:6px;overflow:hidden;}
+.sem-bar{height:100%;background:linear-gradient(90deg,var(--blue),var(--blue2));border-radius:4px;transition:width .5s;}
+.sem-progress-label{display:flex;justify-content:space-between;font-size:9px;color:var(--mu);font-family:'IBM Plex Mono',monospace;margin-top:3px;}
+.dday-scroll{flex:1;overflow-y:auto;padding:12px 14px;}
+.dday-sec-title{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;font-family:'IBM Plex Mono',monospace;color:var(--mu);margin:12px 0 7px;}
+.dday-sec-title:first-child{margin-top:0;}
+.dday-card{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;
+  border-radius:var(--radius-sm);border:1.5px solid var(--border);
+  background:var(--bg);margin-bottom:6px;cursor:pointer;transition:all .15s;
+}
+.dday-card:hover{border-color:var(--border2);background:var(--white);box-shadow:var(--shadow);}
+.dday-card.urg-0{border-color:var(--red);background:var(--red-a);}
+.dday-card.urg-3{border-color:var(--amber);background:var(--amber-a);}
+.dday-card.urg-7{border-color:var(--blue);background:var(--blue-aa);}
+.dday-card.is-today{border-color:var(--blue);background:var(--blue-a);}
+.dday-sdot{width:9px;height:9px;border-radius:2px;flex-shrink:0;}
+.dday-info{flex:1;min-width:0;}
+.dday-subj{font-size:11px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--tx);}
+.dday-meta{font-size:9px;color:var(--mu);font-family:'IBM Plex Mono',monospace;margin-top:2px;line-height:1.5;}
+.dday-num{text-align:right;flex-shrink:0;}
+.dval{font-size:16px;font-weight:900;font-family:'IBM Plex Mono',monospace;line-height:1;color:var(--mu);}
+.dlabel{font-size:8px;color:var(--mu);margin-top:1px;font-family:'IBM Plex Mono',monospace;}
+.dday-card.urg-0 .dval{color:var(--red);}
+.dday-card.urg-3 .dval{color:var(--amber);}
+.dday-card.urg-7 .dval{color:var(--blue);}
+.dday-card.is-today .dval{color:var(--blue);}
+.dday-type-badge{
+  font-size:8px;font-weight:700;padding:1px 5px;border-radius:8px;
+  font-family:'IBM Plex Mono',monospace;margin-left:4px;vertical-align:middle;
+}
+.badge-출석{background:rgba(37,99,235,.12);color:#1d4ed8;}
+.badge-화상{background:rgba(124,58,237,.1);color:#6d28d9;}
+.badge-중간{background:var(--amber-a);color:var(--amber);}
+.badge-기말{background:var(--red-a);color:var(--red);}
+.dday-empty{font-size:11px;color:var(--mu);text-align:center;padding:28px 0;font-family:'IBM Plex Mono',monospace;}
+
+/* ═══ POPUP ═══ */
+.overlay{display:none;position:fixed;inset:0;background:rgba(15,23,51,.45);z-index:600;align-items:center;justify-content:center;backdrop-filter:blur(3px);}
+.overlay.show{display:flex;}
+.popup{
+  background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-lg);
+  padding:24px;width:360px;max-width:95vw;box-shadow:var(--shadow-lg);
+  animation:popIn .17s ease;
+}
+@keyframes popIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.pop-date{font-size:11px;color:var(--mu);font-family:'IBM Plex Mono',monospace;margin-bottom:3px;}
+.pop-title{font-size:16px;font-weight:900;margin-bottom:14px;color:var(--tx);font-family:'Black Han Sans',sans-serif;letter-spacing:.3px;}
+.pop-ev{
+  display:flex;align-items:flex-start;gap:9px;padding:10px 12px;
+  background:var(--bg);border-radius:var(--radius-sm);margin-bottom:6px;
+  border:1.5px solid var(--border);
+}
+.pop-sdot{width:9px;height:9px;border-radius:3px;flex-shrink:0;margin-top:3px;}
+.pop-info{flex:1;}
+.pop-subj{font-size:12px;font-weight:800;margin-bottom:2px;color:var(--tx);}
+.pop-meta{font-size:10px;color:var(--mu);font-family:'IBM Plex Mono',monospace;line-height:1.8;}
+.pop-badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;font-family:'IBM Plex Mono',monospace;white-space:nowrap;align-self:flex-start;}
+.pop-section-title{font-size:9px;color:var(--mu);font-family:'IBM Plex Mono',monospace;letter-spacing:1px;text-transform:uppercase;margin:10px 0 6px;}
+.pop-close{
+  width:100%;margin-top:14px;padding:9px;border-radius:var(--radius-sm);
+  border:1.5px solid var(--border);background:transparent;color:var(--mu);
+  font-size:12px;cursor:pointer;transition:all .15s;font-family:'Noto Sans KR',sans-serif;font-weight:600;
+}
+.pop-close:hover{background:var(--bg);color:var(--tx);}
+
+/* ═══ EDIT MODAL ═══ */
+.edit-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,51,.5);z-index:700;align-items:center;justify-content:center;backdrop-filter:blur(3px);}
+.edit-overlay.show{display:flex;}
+.edit-modal{
+  background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-lg);
+  width:480px;max-width:96vw;max-height:85vh;overflow-y:auto;
+  box-shadow:var(--shadow-lg);animation:popIn .17s ease;
+}
+.edit-modal-hdr{
+  padding:18px 20px 14px;border-bottom:1.5px solid var(--border);
+  position:sticky;top:0;background:var(--white);z-index:1;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.edit-modal-title{font-size:15px;font-weight:900;color:var(--tx);font-family:'Black Han Sans',sans-serif;letter-spacing:.3px;}
+.edit-modal-date{font-size:11px;color:var(--mu);font-family:'IBM Plex Mono',monospace;margin-top:2px;}
+.edit-modal-close{
+  width:28px;height:28px;border-radius:8px;border:1.5px solid var(--border);
+  background:transparent;color:var(--mu);cursor:pointer;font-size:14px;
+  display:flex;align-items:center;justify-content:center;transition:all .15s;
+}
+.edit-modal-close:hover{background:var(--bg);color:var(--tx);}
+.edit-section{padding:14px 20px;border-bottom:1.5px solid var(--border);}
+.edit-section:last-child{border-bottom:none;}
+.edit-sec-title{
+  font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--mu);font-family:'IBM Plex Mono',monospace;margin-bottom:10px;
+}
+.shift-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;}
+.shift-opt{
+  padding:7px 4px;border-radius:7px;border:1.5px solid var(--border);
+  background:transparent;color:var(--mu);font-size:10px;font-weight:700;
+  font-family:'IBM Plex Mono',monospace;cursor:pointer;transition:all .15s;text-align:center;
+}
+.shift-opt:hover{background:var(--blue-a);color:var(--blue);border-color:var(--blue);}
+.shift-opt.active{border-color:var(--blue);background:var(--blue-a);color:var(--blue);}
+.shift-opt.none-opt.active{border-color:var(--border2);background:var(--bg);color:var(--mu);}
+.edit-ev-row{
+  display:flex;align-items:center;gap:8px;padding:9px 10px;
+  border-radius:var(--radius-sm);border:1.5px solid var(--border);
+  background:var(--bg);margin-bottom:6px;
+}
+.edit-ev-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+.edit-ev-info{flex:1;min-width:0;}
+.edit-ev-name{font-size:11px;font-weight:800;color:var(--tx);}
+.edit-ev-meta{font-size:10px;color:var(--mu);font-family:'IBM Plex Mono',monospace;margin-top:2px;}
+.edit-btn{
+  padding:5px 10px;border-radius:6px;border:1.5px solid var(--border);
+  background:transparent;color:var(--mu);font-size:10px;cursor:pointer;
+  font-family:'Noto Sans KR',sans-serif;transition:all .15s;flex-shrink:0;font-weight:600;
+}
+.edit-btn:hover{background:var(--blue-a);color:var(--blue);border-color:var(--blue);}
+.edit-inline{
+  display:flex;flex-direction:column;gap:6px;margin-top:8px;padding:10px;
+  background:var(--s3);border-radius:var(--radius-sm);border:1.5px solid var(--border);
+}
+.edit-field{display:flex;align-items:center;gap:8px;}
+.edit-label{font-size:9px;color:var(--mu);font-family:'IBM Plex Mono',monospace;width:36px;flex-shrink:0;font-weight:600;}
+.edit-input{
+  flex:1;padding:6px 10px;border-radius:6px;border:1.5px solid var(--border);
+  background:var(--white);color:var(--tx);font-size:11px;
+  font-family:'IBM Plex Mono',monospace;outline:none;transition:all .15s;
+}
+.edit-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-a);}
+.edit-save-btn{
+  padding:6px 14px;border-radius:6px;border:none;
+  background:var(--blue);color:#fff;font-size:10px;font-weight:800;
+  cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .15s;
+}
+.edit-save-btn:hover{background:var(--blue2);}
+.edit-no-events{font-size:11px;color:var(--mu);font-family:'IBM Plex Mono',monospace;text-align:center;padding:16px 0;}
+
+/* shift legend */
+.shift-legend-row{display:flex;align-items:center;gap:7px;margin-bottom:4px;}
+.shift-legend-badge{font-size:9px;font-weight:800;padding:2px 7px;border-radius:4px;font-family:'IBM Plex Mono',monospace;min-width:46px;text-align:center;}
+.shift-legend-time{font-size:9px;color:var(--mu);font-family:'IBM Plex Mono',monospace;}
+
+/* ═══ TOAST ═══ */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(70px);
+  background:var(--tx);border-radius:10px;
+  padding:10px 20px;font-size:12px;font-weight:700;color:#fff;
+  z-index:900;transition:transform .25s cubic-bezier(.34,1.56,.64,1);pointer-events:none;
+  box-shadow:var(--shadow-md);white-space:nowrap;
+}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast.warn{background:var(--red);}
+
+/* ═══ SHIFT TYPE MANAGEMENT ═══ */
+.shift-type-row {
+  display:flex;align-items:center;gap:7px;margin-bottom:5px;
+  padding:5px 7px;border-radius:7px;background:var(--bg);
+  border:1.5px solid var(--border);transition:border-color .15s;
+}
+.shift-type-row:hover { border-color:var(--border2); }
+.shift-type-badge-wrap { flex:1;min-width:0; }
+.shift-type-time-txt { font-size:9px;color:var(--mu);font-family:'IBM Plex Mono',monospace;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+.shift-type-del {
+  width:18px;height:18px;border-radius:4px;border:1.5px solid var(--border);
+  background:transparent;color:var(--mu);cursor:pointer;font-size:10px;
+  display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;
+}
+.shift-type-del:hover { background:var(--red-a);color:var(--red);border-color:var(--red); }
+.shift-type-del.disabled { opacity:.3;cursor:not-allowed; }
+.shift-type-del.disabled:hover { background:transparent;color:var(--mu);border-color:var(--border); }
+.color-swatch {
+  width:18px;height:18px;border-radius:5px;cursor:pointer;border:2px solid transparent;
+  transition:all .15s;flex-shrink:0;
+}
+.color-swatch.selected { border-color:var(--tx);transform:scale(1.15); }
+.color-swatch:hover { transform:scale(1.1); }
+
+.custom-shift-row {
+  display:flex;gap:6px;align-items:center;margin-top:8px;
+}
+.custom-shift-input {
+  flex:1;padding:7px 10px;border-radius:7px;border:1.5px solid var(--border);
+  background:var(--bg);color:var(--tx);font-size:12px;
+  font-family:'Noto Sans KR',sans-serif;outline:none;transition:all .15s;
+}
+.custom-shift-input:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 3px var(--blue-a);}
+.custom-shift-input::placeholder{color:var(--mu2);}
+.custom-shift-save {
+  padding:7px 14px;border-radius:7px;border:none;
+  background:var(--blue);color:#fff;font-size:12px;font-weight:700;
+  cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .15s;white-space:nowrap;
+}
+.custom-shift-save:hover{background:var(--blue2);}
+.custom-shift-pill {
+  display:inline-flex;align-items:center;gap:4px;padding:3px 8px 3px 10px;
+  border-radius:20px;background:var(--purple-a);color:var(--purple);
+  border:1.5px solid rgba(124,58,237,.3);font-size:11px;font-weight:700;
+  font-family:'IBM Plex Mono',monospace;margin-top:6px;
+}
+.custom-shift-pill button {
+  background:none;border:none;cursor:pointer;color:var(--purple);
+  font-size:12px;line-height:1;padding:0 2px;opacity:.6;transition:opacity .15s;
+}
+.custom-shift-pill button:hover{opacity:1;}
+
+/* ═══ MOBILE SIDEBAR SHEET ═══ */
+@media (max-width:768px) {
+  .sidebar {
+    position:fixed!important;top:0;left:0;right:0;bottom:0;
+    z-index:550;max-height:80vh;top:auto;
+    border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+    border-top:1.5px solid var(--border);
+    border-right:none;
+    box-shadow:0 -8px 40px rgba(59,110,240,.15);
+    animation:slideUp .22s ease;
+    overflow-y:auto;
+  }
+}
+@media (max-width:768px) {
+  body { overflow:auto; }
+
+  /* TOP BAR */
+  .topbar {
+    height:auto;padding:8px 12px;gap:8px;
+    flex-wrap:wrap;position:sticky;top:0;z-index:500;
+  }
+  .topbar-brand { padding-right:10px; }
+  .tb-sub { display:none; }
+  .tb-uni { font-size:11px; }
+  .topbar-tabs {
+    order:3;width:100%;padding:0;gap:2px;
+    border-top:1px solid var(--border);padding-top:6px;
+  }
+  .tb-tab { padding:6px 10px;font-size:11px; }
+  .topbar-right { margin-left:auto; }
+  .user-name { display:none; }
+  .tb-logout { padding:5px 8px;font-size:10px; }
+
+  /* VIEWS */
+  .view { height:auto!important;min-height:calc(100dvh - 90px);overflow:visible; }
+  @supports not (height:100dvh){.view{min-height:calc(100vh - 90px);}}
+  .view.active { display:flex; }
+
+  /* REGISTRATION VIEW */
+  #reg-view { flex-direction:column!important; }
+  .reg-left { border-right:none;border-bottom:1.5px solid var(--border);max-height:55dvh;overflow:hidden;display:flex;flex-direction:column;flex-shrink:0; }
+  @supports not (max-height:55dvh){.reg-left{max-height:55vh;}}
+  .reg-right { width:100%;flex-shrink:0;max-height:45dvh;overflow-y:auto; }
+  @supports not (max-height:45dvh){.reg-right{max-height:45vh;}}
+  .reg-list { flex:1;overflow-y:auto; }
+  .timetable-wrap { display:none; }
+  .reg-toolbar { padding:8px 12px;gap:6px; }
+  .reg-search { font-size:12px;padding:7px 10px; }
+  .dept-filter { font-size:11px;padding:7px 8px;max-width:100px; }
+
+  /* CALENDAR VIEW */
+  #cal-view { flex-direction:column!important; }
+  .cal-controls {
+    padding:8px 12px;flex-wrap:wrap;gap:6px;
+  }
+  .sem-badge { font-size:10px;padding:3px 8px;order:0;flex-shrink:0; }
+  .view-toggle { order:1;flex-shrink:0; }
+  .vtog-btn { padding:4px 10px;font-size:10px; }
+  .month-nav { gap:2px;order:2;overflow-x:auto;scrollbar-width:none;flex-shrink:0; }
+  .month-nav::-webkit-scrollbar{display:none;}
+  .month-btn { padding:4px 8px;font-size:10px;flex-shrink:0; }
+  .type-filters {
+    order:4;width:100%;overflow-x:auto;
+    display:flex;gap:3px;padding-bottom:2px;
+    scrollbar-width:none;
+  }
+  .type-filters::-webkit-scrollbar{display:none;}
+  .type-btn { flex-shrink:0;font-size:10px;padding:3px 8px; }
+  .bell-btn { order:3;font-size:10px;padding:4px 9px;flex-shrink:0; }
+  #mobile-sidebar-btn { order:3; }
+
+  /* CALENDAR BODY — NO SIDEBAR ON MOBILE */
+  .cal-body { grid-template-columns:1fr;overflow:visible; }
+  .cal-body > #week-grid-wrap { grid-column:1; }
+  .sidebar { display:none; }
+  .cal-wrap { padding:10px;overflow:visible; }
+
+  /* CALENDAR GRID */
+  .cal-grid { font-size:9px; }
+  .day-cell { min-height:70px;padding:4px 3px 3px; }
+  .day-n { font-size:10px;width:19px;height:19px; }
+  .epill { font-size:8px;padding:2px 3px; }
+  .epill .etime { display:none; }
+  .vod-strip { font-size:7px; }
+  .shift-pill { font-size:8px;padding:1px 4px; }
+
+  /* POPUP / MODALS */
+  .popup { width:100%;max-width:100%;border-radius:var(--radius) var(--radius) 0 0;position:fixed;bottom:0;left:0;right:0;animation:slideUp .2s ease; }
+  @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  .overlay { align-items:flex-end!important; }
+  .edit-modal { width:100%;max-width:100%;max-height:92vh;border-radius:var(--radius-lg) var(--radius-lg) 0 0;position:fixed;bottom:0;left:0;right:0; }
+  .edit-overlay { align-items:flex-end!important; }
+
+  /* D-DAY PANEL */
+  .dday-panel { width:100%;border-left:none;border-top:1.5px solid var(--border);top:auto; }
+
+  /* LOGIN */
+  .login-wrap { flex-direction:column;width:96vw;max-height:96vh;overflow-y:auto; }
+  .login-left { padding:28px 24px;min-height:auto; }
+  .ll-features { display:none; }
+  .ll-title { font-size:18px; }
+  .login-right { width:100%;padding:28px 24px; }
+
+  /* SHIFT GRID */
+  .shift-grid { grid-template-columns:repeat(4,1fr); }
+
+  /* CAL MONTH TITLE */
+  .cal-month-title { margin-bottom:8px; }
+  .cal-month-label { font-size:15px; }
+}
+
+@media (max-width:480px) {
+  .topbar { padding:6px 10px 0; }
+  .tb-logo-wrap { width:28px;height:28px; }
+  .tb-uni { font-size:11px; }
+  .month-btn { padding:3px 7px;font-size:9px; }
+  .day-cell { min-height:54px;padding:3px 2px; }
+  .day-n { font-size:9px;width:17px;height:17px; }
+  .day-hdr { font-size:9px;padding:5px 0; }
+  .epill { font-size:7px;padding:1px 2px; }
+  .vod-strip { height:9px;font-size:6px; }
+  .vtog-btn { padding:3px 7px;font-size:9px; }
+  .week-grid{grid-template-columns:repeat(7,minmax(38px,1fr));}
+  .week-day-num{font-size:10px;width:20px;height:20px;}
+  .week-day-name{font-size:9px;}
+  .cal-controls{gap:4px;padding:6px 10px;}
+  .sem-badge{font-size:9px;padding:2px 7px;}
+}
+
+/* ═══ WEEK/MONTH VIEW TOGGLE ═══ */
+.view-toggle {display:flex;gap:2px;background:var(--bg);border-radius:8px;padding:3px;}
+.vtog-btn {
+  padding:5px 14px;border-radius:6px;border:none;background:transparent;
+  color:var(--mu);font-size:11px;font-weight:700;cursor:pointer;
+  font-family:'Gowun Dodum',sans-serif;transition:all .15s;
+}
+.vtog-btn.active{background:var(--white);color:var(--blue);box-shadow:var(--shadow);}
+
+/* ═══ WEEK VIEW GRID ═══ */
+.week-grid-wrap {overflow-y:auto;overflow-x:auto;padding:16px 18px;background:var(--bg);}
+.week-nav-row {display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.week-nav-btn {
+  width:28px;height:28px;border-radius:7px;border:1.5px solid var(--border);
+  background:var(--white);color:var(--tx);cursor:pointer;font-size:14px;
+  display:flex;align-items:center;justify-content:center;transition:all .15s;
+}
+.week-nav-btn:hover{background:var(--bg);border-color:var(--border2);}
+.week-label {font-size:15px;font-weight:800;color:var(--tx);font-family:'Black Han Sans',sans-serif;letter-spacing:.3px;flex:1;}
+.week-label em {color:var(--blue);font-style:normal;}
+.week-grid {
+  display:grid;grid-template-columns:repeat(7,minmax(80px,1fr));
+  border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;
+  background:var(--white);box-shadow:var(--shadow);
+  min-width:560px;
+}
+.week-day-hdr {
+  background:var(--bg);padding:8px 4px;text-align:center;
+  border-bottom:1.5px solid var(--border);
+}
+.week-day-hdr:not(:last-child){border-right:1.5px solid var(--border);}
+.week-day-name {font-size:10px;font-weight:700;color:var(--mu);font-family:'IBM Plex Mono',monospace;}
+.week-day-num {
+  font-size:18px;font-weight:900;color:var(--tx);margin-top:2px;
+  width:30px;height:30px;display:flex;align-items:center;justify-content:center;
+  border-radius:50%;margin:4px auto 0;font-family:'IBM Plex Mono',monospace;
+}
+.week-day-num.is-today{background:var(--blue);color:#fff;}
+.week-day-name.sun{color:var(--red)!important;}
+.week-day-name.sat{color:var(--blue)!important;}
+.week-day-num.sun{color:var(--red)!important;}
+.week-day-num.sat{color:var(--blue)!important;}
+.week-day-num.is-today.sun,.week-day-num.is-today.sat{color:#fff!important;}
+.week-col {
+  min-height:200px;padding:8px 5px;border-top:none;
+  background:var(--white);transition:background .12s;
+}
+.week-col:not(:last-child){border-right:1.5px solid var(--border);}
+.week-col.today-col{background:rgba(59,110,240,.03);}
+.week-col.sun-col{background:rgba(229,62,110,.02);}
+.week-col.sat-col{background:rgba(59,110,240,.02);}
+.week-empty {
+  font-size:9px;color:var(--mu2);text-align:center;padding:12px 0;
+  font-family:'IBM Plex Mono',monospace;
+}
+@media(max-width:768px){
+  .week-grid{grid-template-columns:repeat(7,minmax(44px,1fr));min-width:308px;}
+  .week-col{min-height:100px;padding:3px 2px;}
+  .week-day-num{font-size:12px;width:22px;height:22px;}
+  .week-grid-wrap{padding:8px;}
+  .week-nav-row{gap:6px;}
+  .week-label{font-size:12px;}
+  .week-empty{font-size:8px;padding:8px 0;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ TOP BAR ═══════════════ -->
+<div class="topbar">
+  <div class="topbar-brand">
+    <div class="tb-logo-wrap">
+      <svg width="34" height="34" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
+        <rect width="34" height="34" rx="9" fill="url(#logoGrad)"/>
+        <defs>
+          <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#2b54d4"/>
+            <stop offset="100%" stop-color="#7c3aed"/>
+          </linearGradient>
+        </defs>
+        <!-- briefcase body -->
+        <rect x="7" y="14" width="20" height="13" rx="2.5" fill="none" stroke="white" stroke-width="1.6"/>
+        <!-- briefcase handle -->
+        <path d="M12 14v-2.5a2 2 0 012-2h6a2 2 0 012 2V14" fill="none" stroke="white" stroke-width="1.6"/>
+        <!-- center line -->
+        <line x1="17" y1="14" x2="17" y2="27" stroke="white" stroke-width="1.4" opacity="0.5"/>
+        <!-- graduation cap on top right -->
+        <polygon points="24,8 27,9.5 24,11 21,9.5" fill="white" opacity="0.9"/>
+        <line x1="24" y1="11" x2="24" y2="13.5" stroke="white" stroke-width="1.2" opacity="0.7"/>
+        <circle cx="24" cy="13.8" r="1" fill="white" opacity="0.7"/>
+      </svg>
+    </div>
+    <div>
+      <div class="tb-uni">직<span>대딩</span>플래너</div>
+      <div class="tb-sub">2026학년도 1학기 · 직장인 학생</div>
+    </div>
+  </div>
+  <div class="topbar-tabs">
+    <button class="tb-tab active" id="tab-reg" onclick="switchTab('reg')">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      수강신청
+      <span class="tb-badge" id="reg-count">0</span>
+    </button>
+    <button class="tb-tab" id="tab-cal" onclick="switchTab('cal')">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      학사일정 캘린더
+    </button>
+  </div>
+  <div class="topbar-right">
+    <div class="user-chip">
+      <div class="user-av" id="user-av">직</div>
+      <span class="user-name" id="user-display-name">내 플래너</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ REGISTRATION VIEW ═══════════════ -->
+<div class="view active" id="reg-view">
+  <div class="reg-left">
+    <div class="reg-toolbar">
+      <input class="reg-search" id="reg-search" placeholder="🔍 과목명 · 교수명 · 학과 검색…" oninput="renderRegList()">
+      <select class="dept-filter" id="dept-filter" onchange="renderRegList()">
+        <option value="">전체 학과</option>
+        <option value="자유전공학부(미래융합대학)">자유전공학부</option>
+        <option value="융합기계공학과">융합기계공학과</option>
+        <option value="건설환경융합공학과">건설환경융합공학과</option>
+        <option value="헬스피트니스학과">헬스피트니스학과</option>
+        <option value="문화예술학과">문화예술학과</option>
+        <option value="영어과">영어과</option>
+        <option value="벤처경영학과">벤처경영학과</option>
+        <option value="정보통신융합공학과">정보통신융합공학과</option>
+        <option value="AI융합품질공학전공">AI융합품질공학전공</option>
+      </select>
+    </div>
+    <div class="reg-list" id="reg-list"></div>
+  </div>
+  <div class="reg-right">
+    <div class="reg-panel-hdr">
+      <div class="reg-panel-title">내 수강 목록</div>
+      <div class="reg-panel-sub">이번 학기 수강 신청 과목</div>
+      <div class="reg-credit-bar"><div class="reg-credit-fill" id="credit-fill" style="width:0%"></div></div>
+      <div class="reg-credit-label">
+        <span>0학점</span>
+        <span class="reg-credit-num" id="credit-display">0 / 18 학점</span>
+        <span>18학점</span>
+      </div>
+    </div>
+    <div class="timetable-wrap">
+      <div class="timetable-title">주간 시간표</div>
+      <div class="timetable" id="timetable"></div>
+    </div>
+    <div class="reg-selected-list" id="selected-list">
+      <div class="sel-empty">과목을 선택해 주세요</div>
+    </div>
+    <div class="reg-confirm-area">
+      <button class="reg-confirm-btn" id="confirm-btn" onclick="confirmReg()" disabled>
+        🎓 수강신청 완료 → 학사일정 보기
+      </button>
+      <div class="reg-warn" id="reg-warn">과목을 최소 1개 선택해 주세요</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ CALENDAR VIEW ═══════════════ -->
+<div class="view" id="cal-view">
+  <div class="cal-controls">
+    <span class="sem-badge">2026-1학기</span>
+    <div class="view-toggle">
+      <button class="vtog-btn active" id="vtog-month" onclick="setCalView('month')">월</button>
+      <button class="vtog-btn" id="vtog-week" onclick="setCalView('week')">주</button>
+    </div>
+    <nav class="month-nav" id="month-nav">
+      <button class="month-btn" data-month="3">3월</button>
+      <button class="month-btn" data-month="4">4월</button>
+      <button class="month-btn" data-month="5">5월</button>
+      <button class="month-btn" data-month="6">6월</button>
+    </nav>
+    <div class="type-filters" id="type-filters">
+      <button class="type-btn active" data-type="all">전체</button>
+      <button class="type-btn" data-type="출석">출석</button>
+      <button class="type-btn" data-type="화상">화상</button>
+      <button class="type-btn" data-type="VOD">VOD</button>
+      <button class="type-btn" data-type="중간">중간</button>
+      <button class="type-btn" data-type="기말">기말</button>
+    </div>
+    <button class="bell-btn" id="mobile-sidebar-btn" onclick="toggleMobileSidebar()" style="display:none">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      필터
+    </button>
+    <button class="bell-btn" id="bell-btn" onclick="openDday()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+      D-day
+      <span class="bell-badge" id="bell-badge" style="display:none">0</span>
+    </button>
+  </div>
+  <div class="cal-body">
+    <aside class="sidebar">
+      <div class="sb-sec">
+        <div class="sb-title">과목 표시</div>
+        <div class="sb-row">
+          <button class="sb-btn" id="btn-show-all">전체 표시</button>
+          <button class="sb-btn" id="btn-hide-all">전체 숨기기</button>
+        </div>
+        <div id="subj-list"></div>
+      </div>
+      <div class="sb-sec">
+        <div class="sb-title">근무 유형 관리</div>
+        <div id="shift-type-legend"></div>
+        <div style="margin-top:10px;border-top:1px solid var(--border);padding-top:10px;">
+          <div style="font-size:9px;color:var(--mu);font-family:'IBM Plex Mono',monospace;font-weight:700;margin-bottom:6px;letter-spacing:1px;">+ 새 유형 추가</div>
+          <div style="display:flex;flex-direction:column;gap:5px;">
+            <input id="new-shift-label" class="reg-search" placeholder="이름 (예: 야간당직)" maxlength="8"
+              style="font-size:11px;padding:6px 10px;"
+              onkeydown="if(event.key==='Enter')document.getElementById('new-shift-time').focus()">
+            <input id="new-shift-time" class="reg-search" placeholder="시간 (예: 22:00~07:00)" maxlength="20"
+              style="font-size:11px;padding:6px 10px;"
+              onkeydown="if(event.key==='Enter')addCustomShiftType()">
+            <div style="display:flex;gap:5px;align-items:center;">
+              <div id="shift-color-picker" style="display:flex;gap:4px;flex-wrap:wrap;flex:1;">
+                <!-- color swatches rendered by JS -->
+              </div>
+              <button onclick="addCustomShiftType()" style="padding:6px 10px;border-radius:7px;border:none;background:var(--blue);color:#fff;font-size:11px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;">추가</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sb-sec">
+        <div class="sb-title">범례</div>
+        <div class="leg-row"><div class="leg-bar" style="background:rgba(37,99,235,.5)"></div><span class="leg-txt">출석수업</span></div>
+        <div class="leg-row"><div class="leg-bar" style="background:rgba(124,58,237,.5)"></div><span class="leg-txt">화상강의</span></div>
+        <div class="leg-row"><div class="leg-bar" style="background:rgba(100,116,139,.4)"></div><span class="leg-txt">VOD 수강</span></div>
+        <div class="leg-row"><div class="leg-bar" style="background:rgba(217,119,6,.6)"></div><span class="leg-txt">중간고사</span></div>
+        <div class="leg-row"><div class="leg-bar" style="background:rgba(229,62,110,.6)"></div><span class="leg-txt">기말고사</span></div>
+      </div>
+    </aside>
+    <div class="cal-wrap" id="cal-wrap"></div>
+    <div class="week-grid-wrap" id="week-grid-wrap" style="display:none;flex:1;overflow-y:auto;"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ D-DAY PANEL ═══════════════ -->
+<div class="dday-overlay" id="dday-overlay" onclick="closeDday()"></div>
+<div class="dday-panel" id="dday-panel">
+  <div class="dday-hdr">
+    <div class="dday-hdr-top">
+      <h2>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        D-day 알림
+      </h2>
+      <button class="dday-close" onclick="closeDday()">✕</button>
+    </div>
+    <div class="sem-progress"><div class="sem-bar" id="sem-bar" style="width:0%"></div></div>
+    <div class="sem-progress-label"><span>03.03</span><span id="sem-pct">학기 진행률</span><span>06.20</span></div>
+  </div>
+  <div class="dday-scroll" id="dday-scroll"></div>
+</div>
+
+<!-- ═══════════════ DAY POPUP ═══════════════ -->
+<div class="overlay" id="overlay" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="popup">
+    <div class="pop-date" id="pop-date"></div>
+    <div class="pop-title" id="pop-title"></div>
+    <div id="pop-body"></div>
+    <button class="pop-close" onclick="document.getElementById('overlay').classList.remove('show')">닫기</button>
+  </div>
+</div>
+
+<!-- ═══════════════ EDIT MODAL ═══════════════ -->
+<div class="edit-overlay" id="edit-overlay" onclick="if(event.target===this)closeEditModal()">
+  <div class="edit-modal">
+    <div class="edit-modal-hdr">
+      <div>
+        <div class="edit-modal-title">✏️ 일정 편집</div>
+        <div class="edit-modal-date" id="edit-modal-date"></div>
+      </div>
+      <button class="edit-modal-close" onclick="closeEditModal()">✕</button>
+    </div>
+    <div class="edit-section">
+      <div class="edit-sec-title">🏭 근무 유형 선택</div>
+      <div class="shift-grid" id="shift-grid"></div>
+      <div class="custom-shift-row">
+        <input class="custom-shift-input" id="custom-shift-input" placeholder="직접 입력 (예: 야간당직, 비번…)" maxlength="12"
+          onkeydown="if(event.key==='Enter')saveCustomShift()">
+        <button class="custom-shift-save" onclick="saveCustomShift()">등록</button>
+      </div>
+      <div id="custom-shift-display"></div>
+    </div>
+    <div class="edit-section">
+      <div class="edit-sec-title">📚 수업 일정 편집</div>
+      <div id="edit-events-list"></div>
+    </div>
+    <div class="edit-section">
+      <div class="edit-sec-title">📝 개인 메모</div>
+      <div style="display:flex;gap:7px;align-items:center;">
+        <input class="edit-input" id="edit-memo-input" placeholder="이 날 메모를 입력하세요…" style="flex:1;">
+        <button class="edit-save-btn" onclick="saveMemo()">저장</button>
+      </div>
+      <div id="edit-memo-display" style="margin-top:6px;font-size:10px;color:var(--mu);font-family:'IBM Plex Mono',monospace;"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+// ════════════════════════════════════════
+//  ALL COURSES (111 courses)
+// ════════════════════════════════════════
+const ALL_COURSES=[
+  {code:'170000_FREE',name:'STella 전공탐색',dept:'자유전공학부(미래융합대학)',prof:'변재원',credit:1,grade:'1학년',time:'일(0~0,4~4), 화(2~2)',stype:'온라인',slots:[{d:0,s:0,e:0},{d:0,s:4,e:4},{d:2,s:2,e:2}]},
+  {code:'701004_MECH',name:'열역학',dept:'융합기계공학과',prof:'김주한',credit:3,grade:'2학년',time:'화(2~2), 토(1~3)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:1,e:3}]},
+  {code:'701006_MECH',name:'재료역학',dept:'융합기계공학과',prof:'김승권',credit:3,grade:'2학년',time:'화(2~2), 토(8~10)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:8,e:10}]},
+  {code:'701006_CVIL',name:'재료역학',dept:'건설환경융합공학과',prof:'김대곤',credit:3,grade:'2학년',time:'화(11~11), 수(11~13)',stype:'오프라인',slots:[{d:2,s:11,e:11},{d:3,s:11,e:13}]},
+  {code:'701010_MECH',name:'전기전자개론',dept:'융합기계공학과',prof:'박민기',credit:3,grade:'3학년',time:'화(2~2), 수(11~13)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:3,s:11,e:13}]},
+  {code:'701012_MECH',name:'제어공학',dept:'융합기계공학과',prof:'이수영',credit:3,grade:'4학년',time:'화(2~2), 수(11~13)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:3,s:11,e:13}]},
+  {code:'701023_MECH',name:'캡스톤디자인',dept:'융합기계공학과',prof:'박민수',credit:3,grade:'4학년',time:'목(11~13), 토(1~3)',stype:'팀티칭',slots:[{d:4,s:11,e:13},{d:6,s:1,e:3}]},
+  {code:'701023_CVIL',name:'캡스톤디자인',dept:'건설환경융합공학과',prof:'정은성',credit:3,grade:'4학년',time:'목(11~13)',stype:'팀티칭',slots:[{d:4,s:11,e:13}]},
+  {code:'701026_MECH',name:'디지털이미지프로세싱',dept:'융합기계공학과',prof:'정연찬',credit:3,grade:'3학년',time:'화(2~2), 목(11~13)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:4,s:11,e:13}]},
+  {code:'701031_MECH',name:'제품개발과생산',dept:'융합기계공학과',prof:'김선경',credit:3,grade:'3학년',time:'화(2~2,11~13)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:2,s:11,e:13}]},
+  {code:'701033_MECH',name:'파이선프로그래밍',dept:'융합기계공학과',prof:'박희재',credit:3,grade:'2학년',time:'화(2~2), 토(5~7)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:5,e:7}]},
+  {code:'701039_MECH',name:'기계진동학',dept:'융합기계공학과',prof:'정광필',credit:3,grade:'3학년',time:'월(11~13), 화(2~2)',stype:'온라인',slots:[{d:1,s:11,e:13},{d:2,s:2,e:2}]},
+  {code:'701040_MECH',name:'공기역학',dept:'융합기계공학과',prof:'이규희',credit:3,grade:'3학년',time:'화(2~2), 금(11~13)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:5,s:11,e:13}]},
+  {code:'701041_MECH',name:'수치해석',dept:'융합기계공학과',prof:'이규희',credit:3,grade:'3학년',time:'화(2~2), 토(11~13)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:11,e:13}]},
+  {code:'701046_MECH',name:'유체기계',dept:'융합기계공학과',prof:'박성군',credit:3,grade:'4학년',time:'화(2~2), 토(8~10)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:8,e:10}]},
+  {code:'701049_MECH',name:'물리학의 이해',dept:'융합기계공학과',prof:'신기훈',credit:3,grade:'1학년',time:'화(2~2), 수(11~13)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:3,s:11,e:13}]},
+  {code:'701050_MECH',name:'CAD기초',dept:'융합기계공학과',prof:'정성원',credit:3,grade:'1학년',time:'일(5~7), 화(2~2), 목(11~13), 토(5~7)',stype:'오프라인',slots:[{d:0,s:5,e:7},{d:2,s:2,e:2},{d:4,s:11,e:13},{d:6,s:5,e:7}]},
+  {code:'701052_MECH',name:'디자인사고와적정기술',dept:'융합기계공학과',prof:'김승권',credit:3,grade:'1학년',time:'화(2~2), 토(1~3)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:1,e:3}]},
+  {code:'701056_MECH',name:'공학수학(1)',dept:'융합기계공학과',prof:'김주한',credit:3,grade:'2학년',time:'화(2~2), 목(11~13)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:4,s:11,e:13}]},
+  {code:'701056_CVIL',name:'공학수학(1)',dept:'건설환경융합공학과',prof:'김병수',credit:3,grade:'2학년',time:'화(2~2), 목(11~13)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:4,s:11,e:13}]},
+  {code:'701059_MECH',name:'인공지능응용',dept:'융합기계공학과',prof:'김현정',credit:3,grade:'3학년',time:'일(1~3), 화(2~2)',stype:'오프라인',slots:[{d:0,s:1,e:3},{d:2,s:2,e:2}]},
+  {code:'701064_MECH',name:'반도체융합세미나',dept:'융합기계공학과',prof:'석재영',credit:3,grade:'4학년',time:'화(2~2), 토(5~7)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:5,e:7}]},
+  {code:'701066_MECH',name:'요소설계',dept:'융합기계공학과',prof:'김홍석',credit:3,grade:'4학년',time:'월(11~13), 화(2~2)',stype:'온라인',slots:[{d:1,s:11,e:13},{d:2,s:2,e:2}]},
+  {code:'702005_CVIL',name:'기초환경공학',dept:'건설환경융합공학과',prof:'배재근',credit:3,grade:'2학년',time:'월(11~13), 화(2~2)',stype:'오프라인',slots:[{d:1,s:11,e:13},{d:2,s:2,e:2}]},
+  {code:'702007_CVIL',name:'지형공간정보',dept:'건설환경융합공학과',prof:'한유경',credit:3,grade:'2학년',time:'화(2~2), 토(1~3)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:1,e:3}]},
+  {code:'702008_CVIL',name:'건설시공학',dept:'건설환경융합공학과',prof:'김자연',credit:3,grade:'3학년',time:'화(2~2), 토(1~3)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:1,e:3}]},
+  {code:'702009_CVIL',name:'지반역학',dept:'건설환경융합공학과',prof:'박헌준',credit:3,grade:'3학년',time:'화(2~2), 수(11~13)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:3,s:11,e:13}]},
+  {code:'702010_CVIL',name:'상하수도공학',dept:'건설환경융합공학과',prof:'길경익',credit:3,grade:'3학년',time:'화(2~2), 토(1~3)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:1,e:3}]},
+  {code:'702017_CVIL',name:'구조역학',dept:'건설환경융합공학과',prof:'이진녕',credit:3,grade:'4학년',time:'화(2~2), 토(8~10)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:8,e:10}]},
+  {code:'702018_CVIL',name:'대기환경관리',dept:'건설환경융합공학과',prof:'권오열',credit:3,grade:'4학년',time:'화(2~2), 금(11~13)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:5,s:11,e:13}]},
+  {code:'702021_CVIL',name:'물환경관리',dept:'건설환경융합공학과',prof:'길경익',credit:3,grade:'3학년',time:'화(2~2), 토(5~7)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:5,e:7}]},
+  {code:'702029_CVIL',name:'교통공학',dept:'건설환경융합공학과',prof:'송기한',credit:3,grade:'2학년',time:'화(2~2,11~13)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:2,s:11,e:13}]},
+  {code:'702030_CVIL',name:'하천공학',dept:'건설환경융합공학과',prof:'기성태',credit:3,grade:'3학년',time:'화(8~8), 토(8~10)',stype:'오프라인',slots:[{d:2,s:8,e:8},{d:6,s:8,e:10}]},
+  {code:'702033_CVIL',name:'암반공학',dept:'건설환경융합공학과',prof:'서형준',credit:3,grade:'4학년',time:'화(2~2,11~13)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:2,s:11,e:13}]},
+  {code:'702034_CVIL',name:'PSC 구조설계',dept:'건설환경융합공학과',prof:'김민욱',credit:3,grade:'4학년',time:'월(11~13), 화(2~2)',stype:'오프라인',slots:[{d:1,s:11,e:13},{d:2,s:2,e:2}]},
+  {code:'702035_CVIL',name:'해안및항만공학',dept:'건설환경융합공학과',prof:'기성태',credit:3,grade:'4학년',time:'화(2~2), 토(5~7)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:5,e:7}]},
+  {code:'702038_CVIL',name:'3D모델링및프린팅',dept:'건설환경융합공학과',prof:'최장기',credit:3,grade:'2학년',time:'화(2~2), 수(11~13)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:3,s:11,e:13}]},
+  {code:'702039_CVIL',name:'CAD기초',dept:'건설환경융합공학과',prof:'최장기',credit:3,grade:'1학년',time:'화(2~2), 토(11~13)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:11,e:13}]},
+  {code:'702042_CVIL',name:'컴퓨터프로그래밍',dept:'건설환경융합공학과',prof:'유정화',credit:3,grade:'1학년',time:'화(2~2), 수(11~13)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:3,s:11,e:13}]},
+  {code:'702046_CVIL',name:'포장공학',dept:'건설환경융합공학과',prof:'고용성',credit:3,grade:'3학년',time:'월(11~13), 화(2~2)',stype:'온라인',slots:[{d:1,s:11,e:13},{d:2,s:2,e:2}]},
+  {code:'702048_CVIL',name:'철근콘크리트설계',dept:'건설환경융합공학과',prof:'김진국',credit:3,grade:'4학년',time:'화(2~2), 수(11~13)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:3,s:11,e:13}]},
+  {code:'703034_HLTH',name:'레크리에이션',dept:'헬스피트니스학과',prof:'이솔잎',credit:3,grade:'3학년',time:'화(2~2), 토(8~10)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:8,e:10}]},
+  {code:'703036_HLTH',name:'건강스트레칭',dept:'헬스피트니스학과',prof:'고재옥',credit:3,grade:'2학년',time:'화(2~2), 토(1~3)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:1,e:3}]},
+  {code:'703041_HLTH',name:'운동심리상담',dept:'헬스피트니스학과',prof:'강수진',credit:3,grade:'4학년',time:'화(2~2), 토(11~13)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:11,e:13}]},
+  {code:'703050_HLTH',name:'운동영양학',dept:'헬스피트니스학과',prof:'김승겸',credit:3,grade:'4학년',time:'화(2~2), 토(5~7)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:5,e:7}]},
+  {code:'703054_HLTH',name:'골프',dept:'헬스피트니스학과',prof:'남기정',credit:2,grade:'3학년',time:'목(11~13)',stype:'오프라인',slots:[{d:4,s:11,e:13}]},
+  {code:'703059_HLTH',name:'스포츠과학',dept:'헬스피트니스학과',prof:'이종훈',credit:3,grade:'1학년',time:'화(2~2), 토(1~3)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:1,e:3}]},
+  {code:'703062_HLTH',name:'스포츠운동심리의이론과실제',dept:'헬스피트니스학과',prof:'안도진',credit:3,grade:'3학년',time:'화(2~2), 토(1~3)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:1,e:3}]},
+  {code:'703065_HLTH',name:'스포츠로세상읽기',dept:'헬스피트니스학과',prof:'신규리',credit:3,grade:'1학년',time:'화(2~2), 토(5~7)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:5,e:7}]},
+  {code:'704002_ARTS',name:'재현과묘사',dept:'문화예술학과',prof:'정태후',credit:3,grade:'1학년',time:'화(2~2), 수(11~13), 토(11~13)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:3,s:11,e:13},{d:6,s:11,e:13}]},
+  {code:'704008_ARTS',name:'사진과 문화예술',dept:'문화예술학과',prof:'이명아',credit:3,grade:'2학년',time:'화(2~2), 토(1~3)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:1,e:3}]},
+  {code:'704011_ARTS',name:'문화예술의 감상',dept:'문화예술학과',prof:'정태후',credit:3,grade:'2학년',time:'화(2~2), 금(11~13), 토(8~10)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:5,s:11,e:13},{d:6,s:8,e:10}]},
+  {code:'704015_ARTS',name:'디자인프로세스',dept:'문화예술학과',prof:'윤솔',credit:3,grade:'3학년',time:'월(11~13), 화(2~2), 토(5~7)',stype:'오프라인',slots:[{d:1,s:11,e:13},{d:2,s:2,e:2},{d:6,s:5,e:7}]},
+  {code:'704022_ARTS',name:'프로젝트스튜디오(1)',dept:'문화예술학과',prof:'강수석',credit:3,grade:'4학년',time:'화(2~2), 토(8~10)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:8,e:10}]},
+  {code:'704028_ARTS',name:'문화예술교육',dept:'문화예술학과',prof:'한경원',credit:3,grade:'2학년',time:'화(2~2,11~13), 토(11~13)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:2,s:11,e:13},{d:6,s:11,e:13}]},
+  {code:'704034_ARTS',name:'문화예술기획(1)',dept:'문화예술학과',prof:'황순학',credit:3,grade:'4학년',time:'일(1~3), 화(2~2), 금(11~13)',stype:'오프라인',slots:[{d:0,s:1,e:3},{d:2,s:2,e:2},{d:5,s:11,e:13}]},
+  {code:'704039_ARTS',name:'방송문화기획',dept:'문화예술학과',prof:'강수석',credit:3,grade:'3학년',time:'화(2~2), 목(11~13), 토(11~13)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:4,s:11,e:13},{d:6,s:11,e:13}]},
+  {code:'704042_ARTS',name:'디자인마케팅',dept:'문화예술학과',prof:'권정아',credit:3,grade:'3학년',time:'화(2~2), 토(8~10)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:8,e:10}]},
+  {code:'704043_ARTS',name:'트랜드리서치',dept:'문화예술학과',prof:'권정아',credit:3,grade:'4학년',time:'화(2~2), 토(11~13)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:11,e:13}]},
+  {code:'704044_ARTS',name:'동시대미술과 매체',dept:'문화예술학과',prof:'김주옥',credit:3,grade:'1학년',time:'화(2~2,11~13), 토(5~7)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:2,s:11,e:13},{d:6,s:5,e:7}]},
+  {code:'704045_ARTS',name:'컴퓨터제도',dept:'문화예술학과',prof:'이학민',credit:3,grade:'1학년',time:'월(11~13), 화(2~2), 토(1~3)',stype:'온라인',slots:[{d:1,s:11,e:13},{d:2,s:2,e:2},{d:6,s:1,e:3}]},
+  {code:'704048_ARTS',name:'디지털메이킹(1)',dept:'문화예술학과',prof:'이석진',credit:3,grade:'3학년',time:'화(2~2), 토(1~3)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:1,e:3}]},
+  {code:'705001_ENGL',name:'영어명문읽기',dept:'영어과',prof:'김대진',credit:3,grade:'1학년',time:'화(2~2), 토(1~3)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:1,e:3}]},
+  {code:'705007_ENGL',name:'영어교수법의이해',dept:'영어과',prof:'한선미',credit:3,grade:'3학년',time:'화(2~2), 토(8~10)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:8,e:10}]},
+  {code:'705009_ENGL',name:'영어단어의이해',dept:'영어과',prof:'오영일',credit:3,grade:'2학년',time:'일(5~7), 화(2~2)',stype:'온라인',slots:[{d:0,s:5,e:7},{d:2,s:2,e:2}]},
+  {code:'705017_ENGL',name:'영미소설과스토리텔링',dept:'영어과',prof:'남기헌',credit:3,grade:'4학년',time:'화(2~2), 토(11~13)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:11,e:13}]},
+  {code:'705031_ENGL',name:'영어회화의기초',dept:'영어과',prof:'강동호',credit:3,grade:'1학년',time:'화(2~2), 토(5~7)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:5,e:7}]},
+  {code:'705032_ENGL',name:'영미문학의기초',dept:'영어과',prof:'김성현',credit:3,grade:'1학년',time:'화(2~2), 수(11~13)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:3,s:11,e:13}]},
+  {code:'705034_ENGL',name:'미디어영어',dept:'영어과',prof:'김수임',credit:3,grade:'4학년',time:'화(2~2), 토(8~10)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:8,e:10}]},
+  {code:'705035_ENGL',name:'영미문학산책(1)',dept:'영어과',prof:'이근성',credit:3,grade:'3학년',time:'월(11~13), 화(2~2)',stype:'온라인',slots:[{d:1,s:11,e:13},{d:2,s:2,e:2}]},
+  {code:'705037_ENGL',name:'영어의미의이해',dept:'영어과',prof:'김태식',credit:3,grade:'3학년',time:'화(2~2), 토(1~3)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:1,e:3}]},
+  {code:'705038_ENGL',name:'영어와우리사는세상',dept:'영어과',prof:'김대진',credit:3,grade:'2학년',time:'화(2~2), 토(5~7)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:5,e:7}]},
+  {code:'705039_ENGL',name:'영어듣기와 의사소통',dept:'영어과',prof:'정혜진',credit:3,grade:'2학년',time:'일(8~10), 화(2~2)',stype:'온라인',slots:[{d:0,s:8,e:10},{d:2,s:2,e:2}]},
+  {code:'706001_BUSI',name:'직업의세계',dept:'벤처경영학과',prof:'오경복',credit:3,grade:'1학년',time:'화(2~2,11~13), 토(8~10)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:2,s:11,e:13},{d:6,s:8,e:10}]},
+  {code:'706002_BUSI',name:'회계학원론',dept:'벤처경영학과',prof:'윤양인',credit:3,grade:'1학년',time:'화(2~2), 토(11~13)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:11,e:13}]},
+  {code:'706006_BUSI',name:'정보기술과 경영',dept:'벤처경영학과',prof:'서지혜',credit:3,grade:'2학년',time:'화(2~2), 토(5~7)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:5,e:7}]},
+  {code:'706007_BUSI',name:'벤처기술경영개론',dept:'벤처경영학과',prof:'김선민',credit:3,grade:'2학년',time:'화(2~2), 토(1~3)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:1,e:3}]},
+  {code:'706008_BUSI',name:'벤처기업마케팅',dept:'벤처경영학과',prof:'최영호',credit:3,grade:'2학년',time:'화(2~2), 토(8~10)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:8,e:10}]},
+  {code:'706015_BUSI',name:'보험론',dept:'벤처경영학과',prof:'김소연',credit:3,grade:'3학년',time:'화(2~2), 토(1~3)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:1,e:3}]},
+  {code:'706016_BUSI',name:'기업의사회적책임과기업윤리',dept:'벤처경영학과',prof:'정흥준',credit:3,grade:'3학년',time:'월(11~13), 화(2~2), 토(5~7)',stype:'오프라인',slots:[{d:1,s:11,e:13},{d:2,s:2,e:2},{d:6,s:5,e:7}]},
+  {code:'706018_BUSI',name:'팀활동과문제해결기법',dept:'벤처경영학과',prof:'오경복',credit:3,grade:'1학년',time:'화(2~2), 목(11~13), 토(5~7)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:4,s:11,e:13},{d:6,s:5,e:7}]},
+  {code:'706024_BUSI',name:'파생금융론',dept:'벤처경영학과',prof:'정하일',credit:3,grade:'4학년',time:'화(2~2), 목(11~13), 토(8~10)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:4,s:11,e:13},{d:6,s:8,e:10}]},
+  {code:'706025_BUSI',name:'캡스톤디자인',dept:'벤처경영학과',prof:'전성현',credit:3,grade:'4학년',time:'화(2~2,11~13), 토(5~7)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:2,s:11,e:13},{d:6,s:5,e:7}]},
+  {code:'706026_BUSI',name:'벤처경영을위한인적자원관리',dept:'벤처경영학과',prof:'나영돈',credit:3,grade:'4학년',time:'월(11~13), 화(2~2), 토(11~13)',stype:'오프라인',slots:[{d:1,s:11,e:13},{d:2,s:2,e:2},{d:6,s:11,e:13}]},
+  {code:'706027_BUSI',name:'벤처기업과세무회계',dept:'벤처경영학과',prof:'윤성만',credit:3,grade:'3학년',time:'화(2~2), 토(8~10)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:8,e:10}]},
+  {code:'706034_BUSI',name:'글로벌경영전략',dept:'벤처경영학과',prof:'손우철',credit:3,grade:'3학년',time:'화(2~2), 금(11~13), 토(11~13)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:5,s:11,e:13},{d:6,s:11,e:13}]},
+  {code:'707001_INFO',name:'물리학의 이해',dept:'정보통신융합공학과',prof:'유정화',credit:3,grade:'1학년',time:'화(2~2), 토(8~10)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:8,e:10}]},
+  {code:'707002_INFO',name:'컴퓨터공학개론',dept:'정보통신융합공학과',prof:'이진녕',credit:3,grade:'1학년',time:'화(2~2), 토(5~7)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:5,e:7}]},
+  {code:'707003_INFO',name:'프로그래밍입문',dept:'정보통신융합공학과',prof:'신일훈',credit:3,grade:'1학년',time:'화(2~2), 토(1~3)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:1,e:3}]},
+  {code:'707006_INFO',name:'공학수학',dept:'정보통신융합공학과',prof:'강영훈',credit:3,grade:'2학년',time:'화(2~2), 토(1~3)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:1,e:3}]},
+  {code:'707007_INFO',name:'웹프로그래밍',dept:'정보통신융합공학과',prof:'이길흥',credit:3,grade:'2학년',time:'화(2~2), 목(11~13)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:4,s:11,e:13}]},
+  {code:'707008_INFO',name:'디지털논리회로',dept:'정보통신융합공학과',prof:'곽용수',credit:3,grade:'2학년',time:'일(1~3), 화(2~2)',stype:'오프라인',slots:[{d:0,s:1,e:3},{d:2,s:2,e:2}]},
+  {code:'707009_INFO',name:'회로이론',dept:'정보통신융합공학과',prof:'곽용수',credit:3,grade:'2학년',time:'일(5~7), 화(2~2)',stype:'오프라인',slots:[{d:0,s:5,e:7},{d:2,s:2,e:2}]},
+  {code:'707010_INFO',name:'객체지향프로그래밍',dept:'정보통신융합공학과',prof:'노창배',credit:3,grade:'2학년',time:'화(2~2), 토(5~7)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:5,e:7}]},
+  {code:'707011_INFO',name:'자료구조와알고리즘',dept:'정보통신융합공학과',prof:'노창배',credit:3,grade:'2학년',time:'화(2~2), 토(8~10)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:6,s:8,e:10}]},
+  {code:'707018_INFO',name:'전자회로',dept:'정보통신융합공학과',prof:'심동하',credit:3,grade:'3학년',time:'월(11~13), 화(2~2)',stype:'온라인',slots:[{d:1,s:11,e:13},{d:2,s:2,e:2}]},
+  {code:'707019_INFO',name:'전력공학',dept:'정보통신융합공학과',prof:'송화창',credit:3,grade:'3학년',time:'화(2~2), 토(8~10)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:8,e:10}]},
+  {code:'707020_INFO',name:'반도체공학',dept:'정보통신융합공학과',prof:'정태호',credit:3,grade:'3학년',time:'화(2~2,11~13)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:2,s:11,e:13}]},
+  {code:'707021_INFO',name:'통신공학',dept:'정보통신융합공학과',prof:'이예훈',credit:3,grade:'3학년',time:'화(2~2), 토(1~3)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:1,e:3}]},
+  {code:'707022_INFO',name:'컴퓨터비젼',dept:'정보통신융합공학과',prof:'이의진',credit:3,grade:'3학년',time:'화(2~2), 목(11~13)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:4,s:11,e:13}]},
+  {code:'707023_INFO',name:'운영체제',dept:'정보통신융합공학과',prof:'신일훈',credit:3,grade:'3학년',time:'화(2~2), 토(5~7)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:5,e:7}]},
+  {code:'708001_AIQE',name:'공업통계',dept:'AI융합품질공학전공',prof:'박지연',credit:3,grade:'1학년',time:'화(2~2), 수(11~13)',stype:'오프라인',slots:[{d:2,s:2,e:2},{d:3,s:11,e:13}]},
+  {code:'708002_AIQE',name:'산업공학개론',dept:'AI융합품질공학전공',prof:'박상대',credit:3,grade:'1학년',time:'화(2~2), 금(11~13)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:5,s:11,e:13}]},
+  {code:'708006_AIQE',name:'스마트공정관리',dept:'AI융합품질공학전공',prof:'박부희',credit:3,grade:'1학년',time:'월(11~12), 화(2~2), 토(2~3,6~7)',stype:'온라인',slots:[{d:1,s:11,e:12},{d:2,s:2,e:2},{d:6,s:2,e:3},{d:6,s:6,e:7}]},
+  {code:'708021_AIQE',name:'경제성공학',dept:'AI융합품질공학전공',prof:'김종한',credit:3,grade:'1학년',time:'화(2~2,11~13)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:2,s:11,e:13}]},
+  {code:'708030_AIQE',name:'통계적품질관리',dept:'AI융합품질공학전공',prof:'박부희',credit:3,grade:'1학년',time:'화(2~2), 토(8~11)',stype:'온라인',slots:[{d:2,s:2,e:2},{d:6,s:8,e:11}]},
+  {code:'761001_BUSI',name:'실무프로젝트(1)',dept:'벤처경영학과',prof:'박선효',credit:3,grade:'4학년',time:'수(11~13)',stype:'오프라인',slots:[{d:3,s:11,e:13}]},
+  {code:'761001_MECH',name:'실무프로젝트(1)',dept:'융합기계공학과',prof:'신기훈',credit:3,grade:'4학년',time:'화(11~13)',stype:'오프라인',slots:[{d:2,s:11,e:13}]},
+  {code:'761001_ARTS',name:'실무프로젝트(1)',dept:'문화예술학과',prof:'김희남',credit:3,grade:'4학년',time:'수(11~13)',stype:'오프라인',slots:[{d:3,s:11,e:13}]},
+  {code:'761001_CVIL',name:'실무프로젝트(1)',dept:'건설환경융합공학과',prof:'이창노',credit:3,grade:'4학년',time:'화(11~13)',stype:'오프라인',slots:[{d:2,s:11,e:13}]},
+  {code:'761001_HLTH',name:'실무프로젝트(1)',dept:'헬스피트니스학과',prof:'김승겸',credit:3,grade:'4학년',time:'토(1~3)',stype:'오프라인',slots:[{d:6,s:1,e:3}]},
+];
+
+// ════════════════════════════════════════
+//  SUBJECTS CONFIG (calendar)
+// ════════════════════════════════════════
+const SUBJS_DEF = {
+  '제품개발과생산':{color:'#e53e6e',short:'제품개발',vod:'rgba(229,62,110,.1)',prof:'김선경',credit:3,stype:'온라인'},
+  '수치해석':{color:'#3b6ef0',short:'수치해석',vod:'rgba(59,110,240,.1)',prof:'이규희',credit:3,stype:'오프라인'},
+  '요소설계':{color:'#f97316',short:'요소설계',vod:'rgba(249,115,22,.1)',prof:'김홍석',credit:3,stype:'온라인'},
+  '3D모델링및프린팅':{color:'#16a34a',short:'3D모델링',vod:'rgba(22,163,74,.1)',prof:'최장기',credit:3,stype:'오프라인'},
+  '보험론':{color:'#d97706',short:'보험론',vod:'rgba(217,119,6,.1)',prof:'김소연',credit:3,stype:'온라인'},
+  '기업의사회적책임과기업윤리':{color:'#7c3aed',short:'기업윤리',vod:'rgba(124,58,237,.1)',prof:'정흥준',credit:3,stype:'오프라인'},
+};
+let SUBJS = {}; // empty until courses registered
+
+// ════════════════════════════════════════
+//  WORK SCHEDULE CONFIG
+// ════════════════════════════════════════
+const SHIFT_CONFIG = {
+  'D'    :{label:'D',    time:'06:00~14:00',      cls:'shift-D'},
+  'D특근':{label:'D특근',time:'06:00~14:00 특근',  cls:'shift-D특근'},
+  'S'    :{label:'S',    time:'14:00~22:00',      cls:'shift-S'},
+  'S특근':{label:'S특근',time:'14:00~22:00 특근',  cls:'shift-S특근'},
+  'G'    :{label:'G',    time:'22:00~06:00',      cls:'shift-G'},
+  'G특근':{label:'G특근',time:'22:00~06:00 특근',  cls:'shift-G특근'},
+  'G지근':{label:'G지근',time:'쉬는날',            cls:'shift-G지근'},
+  '연'   :{label:'연',   time:'연차 (휴가)',        cls:'shift-연'},
+  'T'    :{label:'T',    time:'익일 10시~ 출근',    cls:'shift-T'},
+  '교육' :{label:'교육', time:'교육',              cls:'shift-교육'},
+};
+
+// ════════════════════════════════════════
+//  CUSTOM SHIFT TYPE MANAGEMENT
+// ════════════════════════════════════════
+// User-added shift types, stored per user
+let customShiftTypes = {};  // key -> {label, time, color}
+
+const SHIFT_COLORS = [
+  '#3b6ef0','#e53e6e','#16a34a','#d97706','#7c3aed',
+  '#0ea5e9','#f97316','#14b8a6','#84cc16','#ec4899',
+  '#6366f1','#ef4444',
+];
+let selectedShiftColor = SHIFT_COLORS[0];
+
+function getEffectiveShiftConfig() {
+  const merged = {...SHIFT_CONFIG};
+  Object.entries(customShiftTypes).forEach(([key, val]) => {
+    merged[key] = {label: key, time: val.time, cls: 'shift-custom', color: val.color};
+  });
+  return merged;
+}
+
+function renderShiftTypeLegend() {
+  const wrap = document.getElementById('shift-type-legend');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  const allTypes = getEffectiveShiftConfig();
+  Object.entries(allTypes).forEach(([key, sc]) => {
+    const isBuiltIn = !!SHIFT_CONFIG[key];
+    const row = document.createElement('div');
+    row.className = 'shift-type-row';
+    const color = sc.color || null;
+    const badgeStyle = color
+      ? `background:${color}22;color:${color};border:1.5px solid ${color}55;`
+      : '';
+    row.innerHTML = `
+      <div class="shift-type-badge-wrap">
+        <span class="shift-legend-badge ${isBuiltIn ? sc.cls : ''}" style="${badgeStyle}font-size:9px;padding:2px 7px;border-radius:4px;font-weight:800;font-family:'IBM Plex Mono',monospace;">${sc.label}</span>
+        <div class="shift-type-time-txt">${sc.time}</div>
+      </div>
+      <button class="shift-type-del ${isBuiltIn ? 'disabled' : ''}" onclick="${isBuiltIn ? '' : `deleteShiftType('${key}')`}" title="${isBuiltIn ? '기본 유형은 삭제 불가' : '삭제'}">✕</button>`;
+    wrap.appendChild(row);
+  });
+  renderColorPicker();
+}
+
+function renderColorPicker() {
+  const wrap = document.getElementById('shift-color-picker');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  SHIFT_COLORS.forEach(c => {
+    const sw = document.createElement('div');
+    sw.className = 'color-swatch' + (c === selectedShiftColor ? ' selected' : '');
+    sw.style.background = c;
+    sw.title = c;
+    sw.onclick = () => { selectedShiftColor = c; renderColorPicker(); };
+    wrap.appendChild(sw);
+  });
+}
+
+function addCustomShiftType() {
+  const labelEl = document.getElementById('new-shift-label');
+  const timeEl = document.getElementById('new-shift-time');
+  const label = (labelEl.value || '').trim();
+  const time = (timeEl.value || '').trim() || '시간 미정';
+  if (!label) { showToast('유형 이름을 입력해 주세요', 'warn'); labelEl.focus(); return; }
+  if (SHIFT_CONFIG[label]) { showToast('이미 있는 기본 유형 이름입니다', 'warn'); return; }
+  customShiftTypes[label] = { time, color: selectedShiftColor };
+  labelEl.value = '';
+  timeEl.value = '';
+  selectedShiftColor = SHIFT_COLORS[0];
+  saveUserData();
+  renderShiftTypeLegend();
+  showToast('✅ 근무 유형 "' + label + '" 추가됨');
+}
+
+function deleteShiftType(key) {
+  if (SHIFT_CONFIG[key]) return;
+  delete customShiftTypes[key];
+  // remove from any scheduled days
+  Object.keys(workSchedule).forEach(ds => { if (workSchedule[ds] === key) delete workSchedule[ds]; });
+  saveUserData();
+  renderShiftTypeLegend();
+  renderCal();
+  if(calViewMode==='week')renderWeekCal();
+  showToast('"' + key + '" 유형 삭제됨');
+}
+
+
+const RAW_DEF = [
+  {s:'제품개발과생산',type:'VOD',vodStart:'2026-03-03',vodEnd:'2026-03-09'},
+  {s:'제품개발과생산',type:'VOD',vodStart:'2026-03-10',vodEnd:'2026-03-16'},
+  {s:'제품개발과생산',type:'VOD',vodStart:'2026-03-17',vodEnd:'2026-03-23'},
+  {s:'제품개발과생산',type:'VOD',vodStart:'2026-03-24',vodEnd:'2026-03-30'},
+  {s:'제품개발과생산',type:'VOD',vodStart:'2026-03-31',vodEnd:'2026-04-06'},
+  {s:'제품개발과생산',type:'VOD',vodStart:'2026-04-07',vodEnd:'2026-04-13'},
+  {s:'제품개발과생산',type:'중간',date:'2026-04-14',time:'19:00~22:00',room:'다산관 330'},
+  {s:'제품개발과생산',type:'VOD',vodStart:'2026-04-21',vodEnd:'2026-04-27'},
+  {s:'제품개발과생산',type:'VOD',vodStart:'2026-04-28',vodEnd:'2026-05-04'},
+  {s:'제품개발과생산',type:'VOD',vodStart:'2026-05-05',vodEnd:'2026-05-11'},
+  {s:'제품개발과생산',type:'VOD',vodStart:'2026-05-12',vodEnd:'2026-05-18'},
+  {s:'제품개발과생산',type:'VOD',vodStart:'2026-05-19',vodEnd:'2026-05-25'},
+  {s:'제품개발과생산',type:'VOD',vodStart:'2026-05-26',vodEnd:'2026-06-01'},
+  {s:'제품개발과생산',type:'VOD',vodStart:'2026-06-02',vodEnd:'2026-06-08'},
+  {s:'제품개발과생산',type:'기말',date:'2026-06-09',time:'19:00~22:00',room:'다산관 330'},
+  {s:'수치해석',type:'출석',date:'2026-03-07',time:'19:00~22:00',room:'아름관 221'},
+  {s:'수치해석',type:'화상',date:'2026-03-14',time:'19:00~22:00',room:'아름관 221'},
+  {s:'수치해석',type:'VOD',vodStart:'2026-03-17',vodEnd:'2026-03-23'},
+  {s:'수치해석',type:'출석',date:'2026-03-28',time:'19:00~22:00',room:'아름관 221'},
+  {s:'수치해석',type:'VOD',vodStart:'2026-03-31',vodEnd:'2026-04-06'},
+  {s:'수치해석',type:'VOD',vodStart:'2026-04-07',vodEnd:'2026-04-13'},
+  {s:'수치해석',type:'화상',date:'2026-04-18',time:'19:00~22:00',room:'아름관 221'},
+  {s:'수치해석',type:'중간',date:'2026-04-25',time:'19:00~22:00',room:'아름관 221'},
+  {s:'수치해석',type:'VOD',vodStart:'2026-04-28',vodEnd:'2026-05-04'},
+  {s:'수치해석',type:'출석',date:'2026-05-09',time:'19:00~22:00',room:'아름관 221'},
+  {s:'수치해석',type:'VOD',vodStart:'2026-05-12',vodEnd:'2026-05-18'},
+  {s:'수치해석',type:'화상',date:'2026-05-23',time:'19:00~22:00',room:'아름관 221'},
+  {s:'수치해석',type:'출석',date:'2026-05-30',time:'19:00~22:00',room:'아름관 221'},
+  {s:'수치해석',type:'VOD',vodStart:'2026-06-02',vodEnd:'2026-06-08'},
+  {s:'수치해석',type:'기말',date:'2026-06-13',time:'19:00~22:00',room:'아름관 221'},
+  {s:'요소설계',type:'VOD',vodStart:'2026-03-03',vodEnd:'2026-03-09'},
+  {s:'요소설계',type:'VOD',vodStart:'2026-03-10',vodEnd:'2026-03-16'},
+  {s:'요소설계',type:'VOD',vodStart:'2026-03-17',vodEnd:'2026-03-23'},
+  {s:'요소설계',type:'VOD',vodStart:'2026-03-24',vodEnd:'2026-03-30'},
+  {s:'요소설계',type:'VOD',vodStart:'2026-03-31',vodEnd:'2026-04-06'},
+  {s:'요소설계',type:'VOD',vodStart:'2026-04-07',vodEnd:'2026-04-13'},
+  {s:'요소설계',type:'VOD',vodStart:'2026-04-14',vodEnd:'2026-04-20'},
+  {s:'요소설계',type:'중간',date:'2026-04-27',time:'19:00~22:00',room:'다산관 314'},
+  {s:'요소설계',type:'VOD',vodStart:'2026-04-28',vodEnd:'2026-05-04'},
+  {s:'요소설계',type:'VOD',vodStart:'2026-05-05',vodEnd:'2026-05-11'},
+  {s:'요소설계',type:'VOD',vodStart:'2026-05-12',vodEnd:'2026-05-18'},
+  {s:'요소설계',type:'VOD',vodStart:'2026-05-19',vodEnd:'2026-05-25'},
+  {s:'요소설계',type:'VOD',vodStart:'2026-05-26',vodEnd:'2026-06-01'},
+  {s:'요소설계',type:'VOD',vodStart:'2026-06-02',vodEnd:'2026-06-08'},
+  {s:'요소설계',type:'기말',date:'2026-06-15',time:'19:00~22:00',room:'다산관 314'},
+  {s:'3D모델링및프린팅',type:'출석',date:'2026-03-04',time:'19:00~22:00',room:'아름관 401'},
+  {s:'3D모델링및프린팅',type:'VOD',vodStart:'2026-03-10',vodEnd:'2026-03-16'},
+  {s:'3D모델링및프린팅',type:'출석',date:'2026-03-18',time:'19:00~22:00',room:'아름관 401'},
+  {s:'3D모델링및프린팅',type:'화상',date:'2026-03-25',time:'19:00~22:00',room:'화상강의'},
+  {s:'3D모델링및프린팅',type:'VOD',vodStart:'2026-03-31',vodEnd:'2026-04-06'},
+  {s:'3D모델링및프린팅',type:'VOD',vodStart:'2026-04-07',vodEnd:'2026-04-13'},
+  {s:'3D모델링및프린팅',type:'화상',date:'2026-04-15',time:'19:00~22:00',room:'화상강의'},
+  {s:'3D모델링및프린팅',type:'중간',date:'2026-04-22',time:'19:00~22:00',room:'아름관 401'},
+  {s:'3D모델링및프린팅',type:'출석',date:'2026-04-29',time:'19:00~22:00',room:'아름관 401'},
+  {s:'3D모델링및프린팅',type:'화상',date:'2026-05-06',time:'19:00~22:00',room:'화상강의'},
+  {s:'3D모델링및프린팅',type:'VOD',vodStart:'2026-05-12',vodEnd:'2026-05-18'},
+  {s:'3D모델링및프린팅',type:'VOD',vodStart:'2026-05-19',vodEnd:'2026-05-25'},
+  {s:'3D모델링및프린팅',type:'VOD',vodStart:'2026-05-26',vodEnd:'2026-06-01'},
+  {s:'3D모델링및프린팅',type:'출석',date:'2026-06-03',time:'19:00~22:00',room:'아름관 401'},
+  {s:'3D모델링및프린팅',type:'기말',date:'2026-06-10',time:'19:00~22:00',room:'아름관 401'},
+  {s:'보험론',type:'VOD',vodStart:'2026-03-03',vodEnd:'2026-03-09'},
+  {s:'보험론',type:'VOD',vodStart:'2026-03-10',vodEnd:'2026-03-16'},
+  {s:'보험론',type:'VOD',vodStart:'2026-03-17',vodEnd:'2026-03-23'},
+  {s:'보험론',type:'VOD',vodStart:'2026-03-24',vodEnd:'2026-03-30'},
+  {s:'보험론',type:'VOD',vodStart:'2026-03-31',vodEnd:'2026-04-06'},
+  {s:'보험론',type:'VOD',vodStart:'2026-04-07',vodEnd:'2026-04-13'},
+  {s:'보험론',type:'VOD',vodStart:'2026-04-14',vodEnd:'2026-04-20'},
+  {s:'보험론',type:'중간',date:'2026-04-25',time:'09:00~12:00',room:'어의관 104'},
+  {s:'보험론',type:'VOD',vodStart:'2026-04-28',vodEnd:'2026-05-04'},
+  {s:'보험론',type:'VOD',vodStart:'2026-05-05',vodEnd:'2026-05-11'},
+  {s:'보험론',type:'VOD',vodStart:'2026-05-12',vodEnd:'2026-05-18'},
+  {s:'보험론',type:'VOD',vodStart:'2026-05-19',vodEnd:'2026-05-25'},
+  {s:'보험론',type:'VOD',vodStart:'2026-05-26',vodEnd:'2026-06-01'},
+  {s:'보험론',type:'VOD',vodStart:'2026-06-02',vodEnd:'2026-06-08'},
+  {s:'보험론',type:'기말',date:'2026-06-13',time:'09:00~12:00',room:'어의관 104'},
+  {s:'기업의사회적책임과기업윤리',type:'출석',date:'2026-03-07',time:'13:00~16:00',room:'어의관 102'},
+  {s:'기업의사회적책임과기업윤리',type:'VOD',vodStart:'2026-03-10',vodEnd:'2026-03-16'},
+  {s:'기업의사회적책임과기업윤리',type:'화상',date:'2026-03-23',time:'19:00~22:00',room:'추후지정'},
+  {s:'기업의사회적책임과기업윤리',type:'출석',date:'2026-03-28',time:'13:00~16:00',room:'어의관 102'},
+  {s:'기업의사회적책임과기업윤리',type:'VOD',vodStart:'2026-03-31',vodEnd:'2026-04-06'},
+  {s:'기업의사회적책임과기업윤리',type:'VOD',vodStart:'2026-04-07',vodEnd:'2026-04-13'},
+  {s:'기업의사회적책임과기업윤리',type:'출석',date:'2026-04-18',time:'13:00~16:00',room:'어의관 102'},
+  {s:'기업의사회적책임과기업윤리',type:'중간',date:'2026-04-25',time:'13:00~16:00',room:'어의관 102'},
+  {s:'기업의사회적책임과기업윤리',type:'VOD',vodStart:'2026-04-28',vodEnd:'2026-05-04'},
+  {s:'기업의사회적책임과기업윤리',type:'화상',date:'2026-05-11',time:'19:00~22:00',room:'추후지정'},
+  {s:'기업의사회적책임과기업윤리',type:'VOD',vodStart:'2026-05-12',vodEnd:'2026-05-18'},
+  {s:'기업의사회적책임과기업윤리',type:'화상',date:'2026-05-25',time:'19:00~22:00',room:'추후지정'},
+  {s:'기업의사회적책임과기업윤리',type:'VOD',vodStart:'2026-05-26',vodEnd:'2026-06-01'},
+  {s:'기업의사회적책임과기업윤리',type:'출석',date:'2026-06-06',time:'13:00~16:00',room:'어의관 102'},
+  {s:'기업의사회적책임과기업윤리',type:'기말',date:'2026-06-13',time:'13:00~16:00',room:'어의관 102'},
+];
+let RAW = []; // empty until courses registered
+
+// ════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════
+let selectedCodes = new Set();
+let workSchedule = {};
+let memos = {};
+let currentUser = null;
+const SUBJ_COLORS = ['#e53e6e','#3b6ef0','#f97316','#16a34a','#d97706','#7c3aed','#0ea5e9','#14b8a6','#f43f5e','#84cc16'];
+const WD = ['일','월','화','수','목','금','토'];
+function getToday() {
+  const d = new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+let today = getToday();
+// Auto-refresh today at midnight
+(function schedMidnight(){
+  const now=new Date(), mdn=new Date(now); mdn.setHours(24,0,0,0);
+  setTimeout(()=>{today=getToday();renderCal();if(calViewMode==='week')renderWeekCal();schedMidnight();}, mdn-now);
+})();
+let curMonth = (()=>{const m=new Date().getMonth()+1;return(m>=3&&m<=6)?m:3;})();
+let activeTypes = new Set();
+let hiddenSubjs = new Set();
+
+// ════════════════════════════════════════
+//  LOGIN SYSTEM
+// ════════════════════════════════════════
+function switchLoginTab(tab) {
+  document.getElementById('login-form').style.display = tab==='login' ? 'block' : 'none';
+  document.getElementById('signup-form').style.display = tab==='signup' ? 'block' : 'none';
+  document.getElementById('tab-login-btn').classList.toggle('active', tab==='login');
+  document.getElementById('tab-signup-btn').classList.toggle('active', tab==='signup');
+  document.getElementById('li-err').textContent = '';
+  document.getElementById('su-err').textContent = '';
+}
+
+function hashPw(id, pw) {
+  let h = 5381;
+  const s = id + '::' + pw;
+  for (let i = 0; i < s.length; i++) { h = ((h<<5)+h) ^ s.charCodeAt(i); }
+  return (h >>> 0).toString(36);
+}
+
+function doLogin() {
+  const id = document.getElementById('li-id').value.trim();
+  const pw = document.getElementById('li-pw').value;
+  const err = document.getElementById('li-err');
+  if (!id) { err.textContent = '아이디를 입력해 주세요'; return; }
+  if (!pw) { err.textContent = '비밀번호를 입력해 주세요'; return; }
+  const stored = localStorage.getItem('stp_auth_' + id);
+  if (!stored) { err.textContent = '존재하지 않는 계정입니다. 계정 만들기 탭을 이용하세요'; return; }
+  if (stored !== hashPw(id, pw)) { err.textContent = '비밀번호가 올바르지 않습니다'; return; }
+  loginSuccess(id, false);
+}
+
+function doSignup() {
+  const id = document.getElementById('su-id').value.trim();
+  const pw = document.getElementById('su-pw').value;
+  const pw2 = document.getElementById('su-pw2').value;
+  const err = document.getElementById('su-err');
+  if (id.length < 2) { err.textContent = '아이디는 2자 이상이어야 합니다'; return; }
+  if (pw.length < 4) { err.textContent = '비밀번호는 4자 이상이어야 합니다'; return; }
+  if (pw !== pw2) { err.textContent = '비밀번호가 일치하지 않습니다'; return; }
+  if (localStorage.getItem('stp_auth_' + id)) { err.textContent = '이미 존재하는 아이디입니다'; return; }
+  localStorage.setItem('stp_auth_' + id, hashPw(id, pw));
+  loginSuccess(id, true);
+}
+
+function loginSuccess(id, isNew) {
+  currentUser = id;
+  loadUserData();
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('user-display-name').textContent = id;
+  document.getElementById('user-av').textContent = id.charAt(0).toUpperCase();
+  showToast(isNew ? '🎉 '+id+'님 계정이 생성됐습니다!' : '👋 '+id+'님 환영합니다!');
+  renderRegList();
+  renderSelectedPanel();
+  renderTimetable();
+  renderShiftTypeLegend();
+  renderColorPicker();
+  document.querySelectorAll('.month-btn').forEach(b=>b.classList.toggle('active',+b.dataset.month===curMonth));
+}
+
+function doLogout() {
+  saveUserData();
+  currentUser = null;
+  selectedCodes = new Set();
+  workSchedule = {};
+  memos = {};
+  customShiftTypes = {};
+  RAW = [];
+  SUBJS = {};
+  document.getElementById('user-display-name').textContent = '내 플래너';
+  document.getElementById('user-av').textContent = '직';
+  renderRegList();
+  renderSelectedPanel();
+  renderTimetable();
+}
+
+function saveUserData() {
+  if (!currentUser) return;
+  try {
+    localStorage.setItem('stp_sel_'+currentUser, JSON.stringify([...selectedCodes]));
+    localStorage.setItem('stp_work_'+currentUser, JSON.stringify(workSchedule));
+    localStorage.setItem('stp_memo_'+currentUser, JSON.stringify(memos));
+    localStorage.setItem('stp_raw_'+currentUser, JSON.stringify(RAW));
+    localStorage.setItem('stp_cshift_'+currentUser, JSON.stringify(customShiftTypes));
+    localStorage.setItem('stp_subjs_'+currentUser, JSON.stringify(SUBJS));
+  } catch(e) {}
+}
+
+function loadUserData() {
+  if (!currentUser) return;
+  try {
+    const sel = localStorage.getItem('stp_sel_'+currentUser);
+    selectedCodes = sel ? new Set(JSON.parse(sel)) : new Set();
+  } catch(e) { selectedCodes = new Set(); }
+  try {
+    const w = localStorage.getItem('stp_work_'+currentUser);
+    workSchedule = w ? JSON.parse(w) : {};
+  } catch(e) { workSchedule = {}; }
+  try {
+    const m = localStorage.getItem('stp_memo_'+currentUser);
+    memos = m ? JSON.parse(m) : {};
+  } catch(e) { memos = {}; }
+  try {
+    const r = localStorage.getItem('stp_raw_'+currentUser);
+    RAW = r ? JSON.parse(r) : [];
+  } catch(e) { RAW = []; }
+  try {
+    const sj = localStorage.getItem('stp_subjs_'+currentUser);
+    SUBJS = sj ? JSON.parse(sj) : {};
+  } catch(e) { SUBJS = {}; }
+  try {
+    const cs = localStorage.getItem('stp_cshift_'+currentUser);
+    customShiftTypes = cs ? JSON.parse(cs) : {};
+  } catch(e) { customShiftTypes = {}; }
+}
+
+// ════════════════════════════════════════
+//  CONFLICT DETECTION
+// ════════════════════════════════════════
+function parseTimeToMin(t) {
+  if (!t) return null;
+  const [h,m] = t.trim().split(':').map(Number);
+  return h*60+(m||0);
+}
+function timesOverlap(t1,t2) {
+  if (!t1||!t2) return false;
+  const p1=t1.split('~'),p2=t2.split('~');
+  if (p1.length<2||p2.length<2) return false;
+  const s1=parseTimeToMin(p1[0]),e1=parseTimeToMin(p1[1]);
+  const s2=parseTimeToMin(p2[0]),e2=parseTimeToMin(p2[1]);
+  if (s1===null||e1===null||s2===null||e2===null) return false;
+  return s1<e2 && e1>s2;
+}
+
+function getConflict(course) {
+  const EXAM=['중간','기말','화상'];
+  const selected = ALL_COURSES.filter(c=>selectedCodes.has(c.code)&&c.code!==course.code);
+  const courseExams = RAW_DEF.filter(e=>e.s===course.name&&EXAM.includes(e.type));
+  if (courseExams.length>0) {
+    const selNames = selected.map(c=>c.name);
+    const selExams = RAW_DEF.filter(e=>selNames.includes(e.s)&&EXAM.includes(e.type));
+    for (const ce of courseExams) {
+      for (const se of selExams) {
+        if (ce.date===se.date&&timesOverlap(ce.time,se.time)) return se.s+' ('+se.type+')';
+      }
+    }
+    return null;
+  }
+  for (const sel of selected) {
+    for (const sl of course.slots) {
+      if (sl.d===2&&sl.s<=2&&sl.e>=2) continue;
+      for (const sl2 of sel.slots) {
+        if (sl2.d===2&&sl2.s<=2&&sl2.e>=2) continue;
+        if (sl.d===sl2.d&&sl.s<=sl2.e&&sl.e>=sl2.s) return sel.name;
+      }
+    }
+  }
+  return null;
+}
+
+// ════════════════════════════════════════
+//  REGISTRATION
+// ════════════════════════════════════════
+function getSelectedCourses() { return ALL_COURSES.filter(c=>selectedCodes.has(c.code)); }
+
+function toggleCourse(code) {
+  const course = ALL_COURSES.find(c=>c.code===code);
+  if (!course) return;
+  if (selectedCodes.has(code)) {
+    selectedCodes.delete(code);
+    showToast(course.name+' 수강 취소');
+  } else {
+    const conflict = getConflict(course);
+    if (conflict) { showToast('⚠️ '+conflict+'과 시험 일정 충돌!','warn'); return; }
+    const total = getSelectedCourses().reduce((s,c)=>s+c.credit,0);
+    if (total+course.credit>18) { showToast('⚠️ 최대 18학점 초과!','warn'); return; }
+    selectedCodes.add(code);
+    showToast(course.name+' 추가됨');
+  }
+  saveUserData();
+  renderRegList();
+  renderSelectedPanel();
+  renderTimetable();
+}
+
+function removeCourse(code) {
+  selectedCodes.delete(code);
+  saveUserData();
+  renderRegList();
+  renderSelectedPanel();
+  renderTimetable();
+}
+
+function renderRegList() {
+  const q = (document.getElementById('reg-search')||{}).value||'';
+  const dept = (document.getElementById('dept-filter')||{}).value||'';
+  const list = document.getElementById('reg-list');
+  if (!list) return;
+  list.innerHTML = '';
+  const filtered = ALL_COURSES.filter(c=>
+    (!dept||c.dept===dept) &&
+    (!q||c.name.includes(q)||c.prof.includes(q)||c.dept.toLowerCase().includes(q.toLowerCase()))
+  );
+  filtered.forEach(c=>{
+    const isSel = selectedCodes.has(c.code);
+    const conflict = !isSel ? getConflict(c) : null;
+    const div = document.createElement('div');
+    div.className = 'ccard'+(isSel?' selected':'')+(conflict?' conflict':'');
+    div.onclick = ()=>toggleCourse(c.code);
+    const tagCls = c.stype.includes('팀티칭')?'tag-team':c.stype.includes('오프라인')?'tag-off':'tag-on';
+    div.innerHTML = `
+      <div class="cc-check"></div>
+      <div class="cc-info">
+        <div class="cc-name">
+          <span class="cc-name-text">${c.name}</span>
+          <span class="cc-tag ${tagCls}">${c.stype}</span>
+        </div>
+        <div class="cc-meta">👨‍🏫 ${c.prof} 교수 · ${c.dept}<br>🕐 ${c.time} · ${c.grade}</div>
+        ${conflict?`<div class="cc-conflict-label">⚠ ${conflict}과 일정 충돌</div>`:''}
+      </div>
+      <div class="cc-credit">${c.credit}<span>학점</span></div>`;
+    list.appendChild(div);
+  });
+  const countEl = document.getElementById('reg-count');
+  if (countEl) countEl.textContent = selectedCodes.size;
+}
+
+function renderSelectedPanel() {
+  const list = document.getElementById('selected-list');
+  if (!list) return;
+  const sel = getSelectedCourses();
+  const total = sel.reduce((s,c)=>s+c.credit,0);
+  list.innerHTML = '';
+  if (sel.length===0) {
+    list.innerHTML = '<div class="sel-empty">과목을 선택해 주세요</div>';
+  } else {
+    sel.forEach((c,i)=>{
+      const color = SUBJ_COLORS[i%SUBJ_COLORS.length];
+      const div = document.createElement('div');
+      div.className = 'sel-item';
+      div.innerHTML = `
+        <div class="sel-dot" style="background:${color}"></div>
+        <div class="sel-info">
+          <div class="sel-name">${c.name}</div>
+          <div class="sel-prof">${c.prof} 교수 · ${c.credit}학점</div>
+        </div>
+        <button class="sel-remove" onclick="removeCourse('${c.code}')">✕</button>`;
+      list.appendChild(div);
+    });
+  }
+  const cdEl = document.getElementById('credit-display');
+  const cfEl = document.getElementById('credit-fill');
+  const wEl = document.getElementById('reg-warn');
+  const btnEl = document.getElementById('confirm-btn');
+  const cntEl = document.getElementById('reg-count');
+  if (cdEl) cdEl.textContent = total+' / 18 학점';
+  if (cfEl) cfEl.style.width = Math.min(100,total/18*100)+'%';
+  if (wEl) wEl.textContent = total===0 ? '과목을 최소 1개 선택해 주세요' : '';
+  if (btnEl) btnEl.disabled = total===0;
+  if (cntEl) cntEl.textContent = selectedCodes.size;
+}
+
+function renderTimetable() {
+  const tt = document.getElementById('timetable');
+  if (!tt) return;
+  tt.innerHTML = '';
+  tt.appendChild(Object.assign(document.createElement('div'),{className:'tt-hdr',textContent:''}));
+  ['월','화','수','목','금','토'].forEach(d=>{
+    const h=document.createElement('div');h.className='tt-hdr';h.textContent=d;tt.appendChild(h);
+  });
+  const sel = getSelectedCourses();
+  const slotMap = {};
+  sel.forEach((c,ci)=>{
+    const color = SUBJ_COLORS[ci%SUBJ_COLORS.length];
+    c.slots.forEach(sl=>{
+      for (let p=sl.s;p<=sl.e;p++) {
+        if (!slotMap[sl.d]) slotMap[sl.d]={};
+        slotMap[sl.d][p]=color;
+      }
+    });
+  });
+  for (let p=1;p<=13;p++) {
+    const ph=document.createElement('div');ph.className='tt-period';ph.textContent=p;tt.appendChild(ph);
+    for (let d=1;d<=6;d++) {
+      const cell=document.createElement('div');cell.className='tt-cell';
+      if (slotMap[d]&&slotMap[d][p]) cell.style.background=slotMap[d][p];
+      tt.appendChild(cell);
+    }
+  }
+}
+
+function confirmReg() {
+  const sel = getSelectedCourses();
+  if (sel.length===0) return;
+  SUBJS = {};
+  RAW = [];
+  hiddenSubjs = new Set();
+  sel.forEach((c,i)=>{
+    let sn = c.name;
+    const known = Object.keys(SUBJS_DEF).find(n=>n===c.name||c.name.includes(n)||n.includes(c.name));
+    if (known) sn = known;
+    const color = SUBJ_COLORS[i%SUBJ_COLORS.length];
+    const hx = color.replace('#','');
+    const r=parseInt(hx.slice(0,2),16),g=parseInt(hx.slice(2,4),16),b=parseInt(hx.slice(4,6),16);
+    SUBJS[sn]={color,short:c.name.length>5?c.name.slice(0,5):c.name,vod:`rgba(${r},${g},${b},.1)`,prof:c.prof,credit:c.credit,stype:c.stype};
+    // only pull events for selected courses from RAW_DEF
+    RAW_DEF.filter(e=>e.s===sn).forEach(e=>RAW.push({...e,s:sn}));
+  });
+  saveUserData();
+  switchTab('cal');
+  showToast('🎓 수강신청 완료! 캘린더로 이동합니다');
+}
+
+// ════════════════════════════════════════
+//  TAB
+// ════════════════════════════════════════
+function switchTab(tab) {
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.tb-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById(tab+'-view').classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+  if (tab==='cal') { today=getToday(); renderSidebar(); renderShiftTypeLegend(); if(calViewMode==='week'){setCalView('week');}else{renderCal();} setTimeout(initBell,100); }
+}
+
+// ════════════════════════════════════════
+//  CALENDAR
+// ════════════════════════════════════════
+function buildDayMap(year,month) {
+  const map={};
+  const key=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  const ensure=k=>{if(!map[k])map[k]={regular:[],vod:[]};};
+  RAW.forEach(ev=>{
+    if (ev.type==='VOD') {
+      const s=new Date(ev.vodStart+'T00:00:00'),e=new Date(ev.vodEnd+'T00:00:00');
+      for (let d=new Date(s);d<=e;d.setDate(d.getDate()+1)) {
+        if (d.getFullYear()===year&&d.getMonth()===month-1) {
+          const k=key(new Date(d));ensure(k);
+          map[k].vod.push({...ev,_range:ev.vodStart.slice(5).replace('-','.')+' ~ '+ev.vodEnd.slice(5).replace('-','.')});
+        }
+      }
+    } else {
+      const d=new Date(ev.date+'T00:00:00');
+      if (d.getFullYear()===year&&d.getMonth()===month-1) {const k=key(d);ensure(k);map[k].regular.push(ev);}
+    }
+  });
+  return map;
+}
+
+function renderSidebar() {
+  const c=document.getElementById('subj-list');c.innerHTML='';
+  Object.entries(SUBJS).forEach(([name,info])=>{
+    const cnt=RAW.filter(e=>e.s===name&&e.type!=='VOD').length;
+    const isOff=hiddenSubjs.has(name);
+    const btn=document.createElement('button');
+    btn.className='subj-toggle'+(isOff?' off':'');btn.dataset.subj=name;
+    btn.innerHTML=`
+      <span class="sdot" style="background:${info.color}"></span>
+      <div class="s-texts"><div class="slabel">${info.short}</div>${info.prof?`<div class="sprof">${info.prof} 교수</div>`:''}</div>
+      <span class="scnt">${cnt}</span>
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="opacity:.45;flex-shrink:0;">
+        ${isOff?'<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>':'<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>'}
+      </svg>`;
+    btn.onclick=()=>{hiddenSubjs.has(name)?hiddenSubjs.delete(name):hiddenSubjs.add(name);renderSidebar();applyViz();};
+    c.appendChild(btn);
+  });
+}
+
+document.getElementById('btn-show-all').onclick=()=>{hiddenSubjs.clear();renderSidebar();applyViz();};
+document.getElementById('btn-hide-all').onclick=()=>{Object.keys(SUBJS).forEach(s=>hiddenSubjs.add(s));renderSidebar();applyViz();};
+
+function applyViz() {
+  document.querySelectorAll('[data-subj]').forEach(el=>el.classList.toggle('subj-off',hiddenSubjs.has(el.dataset.subj)));
+  document.querySelectorAll('[data-ptype]').forEach(el=>{
+    el.classList.toggle('type-off',activeTypes.size>0&&!activeTypes.has(el.dataset.ptype));
+  });
+  document.querySelectorAll('.vod-divider').forEach(div=>{
+    const cell=div.closest('.day-cell');if(!cell)return;
+    const hasR=[...cell.querySelectorAll('.epill')].some(p=>!p.classList.contains('subj-off')&&!p.classList.contains('type-off'));
+    const hasV=[...cell.querySelectorAll('.vod-strip')].some(v=>!v.classList.contains('subj-off')&&!v.classList.contains('type-off'));
+    div.classList.toggle('hidden',!hasR||!hasV);
+  });
+}
+
+function renderCal() {
+  const wrap=document.getElementById('cal-wrap');wrap.innerHTML='';
+  const year=2026;
+  const firstDay=new Date(year,curMonth-1,1).getDay();
+  const dim=new Date(year,curMonth,0).getDate();
+  const prevDim=new Date(year,curMonth-1,0).getDate();
+  const offset=firstDay;
+  const total=Math.ceil((offset+dim)/7)*7;
+  const dayMap=buildDayMap(year,curMonth);
+  const pad2=n=>String(n).padStart(2,'0');
+  const nonVod=RAW.filter(e=>{if(e.type==='VOD')return false;const d=new Date(e.date+'T00:00:00');return d.getMonth()+1===curMonth;}).length;
+  const MNAMES={3:'3',4:'4',5:'5',6:'6'};
+  const tb=document.createElement('div');tb.className='cal-month-title';
+  tb.innerHTML=`<div class="cal-month-label">2026년 <em>${MNAMES[curMonth]}월</em></div><div class="cal-month-line"></div><div class="cal-month-count">수업·시험 ${nonVod}건</div>`;
+  wrap.appendChild(tb);
+  const grid=document.createElement('div');grid.className='cal-grid';
+  ['일','월','화','수','목','금','토'].forEach((d,i)=>{
+    const h=document.createElement('div');h.className='day-hdr'+(i===0?' sun':i===6?' sat':'');h.textContent=d;grid.appendChild(h);
+  });
+  for (let i=0;i<total;i++) {
+    const dayNum=i-offset+1, col=i%7;
+    const cell=document.createElement('div');
+    if (dayNum<1||dayNum>dim) {
+      cell.className='day-cell other';
+      const dn=document.createElement('div');dn.className='day-n';dn.textContent=dayNum<1?prevDim+dayNum:dayNum-dim;cell.appendChild(dn);
+    } else {
+      const ds=`${year}-${pad2(curMonth)}-${pad2(dayNum)}`;
+      cell.className='day-cell'+(col===0?' sun':col===6?' sat':'')+(ds===today?' today':'');
+      // header row
+      const numRow=document.createElement('div');
+      numRow.style.cssText='display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;';
+      const numEl=document.createElement('div');numEl.className='day-n';numEl.textContent=dayNum;
+      numRow.appendChild(numEl);
+      const eBtn=document.createElement('button');
+      eBtn.style.cssText='border:none;background:transparent;color:var(--mu);font-size:10px;cursor:pointer;padding:1px 3px;border-radius:4px;opacity:0;transition:opacity .15s;';
+      eBtn.textContent='✏️';eBtn.title='편집';
+      eBtn.onclick=ev=>{ev.stopPropagation();openEditModal(ds);};
+      numRow.appendChild(eBtn);
+      cell.appendChild(numRow);
+      cell.onmouseenter=()=>eBtn.style.opacity='1';
+      cell.onmouseleave=()=>eBtn.style.opacity='0';
+      // shift pill
+      if (workSchedule[ds]) {
+        const key = workSchedule[ds];
+        const sc = SHIFT_CONFIG[key];
+        const custom = customShiftTypes[key];
+        const sp = document.createElement('div');
+        if (sc) {
+          sp.className = 'shift-pill ' + sc.cls;
+          sp.textContent = sc.label; sp.title = sc.time;
+        } else if (custom) {
+          sp.className = 'shift-pill';
+          sp.style.cssText = `background:${custom.color}22;color:${custom.color};border-left-color:${custom.color};`;
+          sp.textContent = key; sp.title = custom.time;
+        } else {
+          sp.className = 'shift-pill shift-custom';
+          sp.textContent = key; sp.title = '커스텀 근무';
+        }
+        sp.onclick = ev => { ev.stopPropagation(); openEditModal(ds); };
+        cell.appendChild(sp);
+      }
+      // memo
+      if (memos[ds]) {
+        const mp=document.createElement('div');
+        mp.style.cssText='font-size:8px;color:var(--mu);padding:1px 4px;margin-bottom:2px;background:var(--bg);border-radius:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-left:2px solid var(--border2);font-family:"IBM Plex Mono",monospace;';
+        mp.textContent='📝 '+memos[ds];
+        mp.onclick=ev=>{ev.stopPropagation();openEditModal(ds);};
+        cell.appendChild(mp);
+      }
+      const {regular=[],vod=[]}=dayMap[ds]||{};
+      regular.forEach(ev=>{
+        const info=SUBJS[ev.s];if(!info)return;
+        const pill=document.createElement('div');pill.className=`epill pill-${ev.type}`;
+        pill.dataset.subj=ev.s;pill.dataset.ptype=ev.type;
+        if(hiddenSubjs.has(ev.s))pill.classList.add('subj-off');
+        if(activeTypes.size>0&&!activeTypes.has(ev.type))pill.classList.add('type-off');
+        const ts=ev.time?ev.time.split('~')[0]:'';
+        pill.innerHTML=`<span class="edot" style="background:${info.color}"></span><span class="etxt">${info.short}</span>${ts?`<span class="etime">${ts}</span>`:''}`;
+        pill.onclick=e=>{e.stopPropagation();openPopup(ds,dayMap[ds]);};
+        cell.appendChild(pill);
+      });
+      if(vod.length>0){const div=document.createElement('div');div.className='vod-divider'+(regular.length===0?' hidden':'');cell.appendChild(div);}
+      [...new Set(vod.map(v=>v.s))].forEach(sn=>{
+        const info=SUBJS[sn];if(!info)return;
+        const strip=document.createElement('div');strip.className='vod-strip';strip.dataset.subj=sn;strip.dataset.ptype='VOD';
+        strip.style.cssText=`background:${info.vod};border-left-color:${info.color};color:${info.color};`;
+        if(hiddenSubjs.has(sn))strip.classList.add('subj-off');
+        if(activeTypes.size>0&&!activeTypes.has('VOD'))strip.classList.add('type-off');
+        strip.innerHTML=`<span class="vshort">${info.short} VOD</span>`;
+        strip.onclick=e=>{e.stopPropagation();openPopup(ds,dayMap[ds]);};
+        cell.appendChild(strip);
+      });
+      if(regular.length>0||vod.length>0){cell.style.cursor='pointer';cell.onclick=()=>openPopup(ds,dayMap[ds]);}
+      else if(workSchedule[ds]||memos[ds]){cell.style.cursor='pointer';cell.onclick=()=>openPopup(ds,dayMap[ds]||{regular:[],vod:[]});}
+    }
+    grid.appendChild(cell);
+  }
+  wrap.appendChild(grid);
+}
+
+function openPopup(ds,dayData) {
+  const {regular=[],vod=[]}=dayData||{};
+  const d=new Date(ds+'T00:00:00');
+  document.getElementById('pop-date').textContent=`${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 (${WD[d.getDay()]}요일)`;
+  const vodSubjs=[...new Set(vod.map(v=>v.s))];
+  const shiftVal = workSchedule[ds];
+  const allTypes = getEffectiveShiftConfig();
+  const sc = shiftVal ? (allTypes[shiftVal] || {label:shiftVal, time:'커스텀 근무'}) : null;
+  const totalItems = regular.length + vodSubjs.length + (sc?1:0) + (memos[ds]?1:0);
+  document.getElementById('pop-title').textContent=(regular.length?regular.length+'개 수업':'')+(regular.length&&vodSubjs.length?' · ':'')+(vodSubjs.length?'VOD '+vodSubjs.length+'과목':'')+(sc?((regular.length||vodSubjs.length)?' · ':'')+sc.label:'') ||'일정';
+  const body=document.getElementById('pop-body');body.innerHTML='';
+  // shift info
+  if (sc) {
+    const el=document.createElement('div');el.className='pop-ev';
+    const scCls = SHIFT_CONFIG[shiftVal] ? SHIFT_CONFIG[shiftVal].cls : 'shift-custom';
+    el.innerHTML=`<div class="pop-sdot" style="background:#7c3aed"></div><div class="pop-info"><div class="pop-subj">🏭 근무 일정</div><div class="pop-meta" style="margin-top:2px"><span class="shift-legend-badge ${scCls}" style="font-size:10px;padding:2px 8px;border-radius:4px;font-weight:800">${sc.label}</span>&nbsp; ${sc.time}</div></div>`;
+    body.appendChild(el);
+  }
+  // memo
+  if (memos[ds]) {
+    const el=document.createElement('div');el.className='pop-ev';
+    el.innerHTML=`<div class="pop-sdot" style="background:#16a34a"></div><div class="pop-info"><div class="pop-subj">📝 메모</div><div class="pop-meta">${memos[ds]}</div></div>`;
+    body.appendChild(el);
+  }
+  const BS={
+    '출석':'background:rgba(37,99,235,.1);color:#1d4ed8;border:1.5px solid rgba(37,99,235,.25)',
+    '화상':'background:rgba(124,58,237,.1);color:#6d28d9;border:1.5px solid rgba(124,58,237,.25)',
+    '중간':'background:rgba(217,119,6,.1);color:#b45309;border:1.5px solid rgba(217,119,6,.25)',
+    '기말':'background:rgba(229,62,110,.1);color:#be123c;border:1.5px solid rgba(229,62,110,.25)',
+    'VOD':'background:rgba(100,116,139,.1);color:#475569;border:1.5px solid rgba(100,116,139,.25)',
+  };
+  regular.forEach(ev=>{
+    const info=SUBJS[ev.s];if(!info)return;
+    const el=document.createElement('div');el.className='pop-ev';
+    el.innerHTML=`<div class="pop-sdot" style="background:${info.color}"></div><div class="pop-info"><div class="pop-subj">${ev.s}</div><div class="pop-meta">${info.prof?'👨‍🏫 '+info.prof+' 교수<br>':''}${ev.time||''}<br>${ev.room?'📍 '+ev.room:''}</div></div><span class="pop-badge" style="${BS[ev.type]||''}">${ev.type}</span>`;
+    body.appendChild(el);
+  });
+  if(vodSubjs.length) {
+    if(regular.length||sc){const st=document.createElement('div');st.className='pop-section-title';st.textContent='VOD 수강 기간';body.appendChild(st);}
+    vodSubjs.forEach(sn=>{
+      const info=SUBJS[sn];if(!info)return;
+      const vodEntry=vod.find(v=>v.s===sn);
+      const el=document.createElement('div');el.className='pop-ev';
+      el.innerHTML=`<div class="pop-sdot" style="background:${info.color}"></div><div class="pop-info"><div class="pop-subj">${sn}</div><div class="pop-meta">📅 ${vodEntry?._range||''}</div></div><span class="pop-badge" style="${BS['VOD']}">VOD</span>`;
+      body.appendChild(el);
+    });
+  }
+  document.getElementById('overlay').classList.add('show');
+}
+
+// ════════════════════════════════════════
+//  EDIT MODAL
+// ════════════════════════════════════════
+let editDs = null;
+
+function openEditModal(ds) {
+  editDs = ds;
+  const d = new Date(ds+'T00:00:00');
+  document.getElementById('edit-modal-date').textContent = `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 (${WD[d.getDay()]}요일)`;
+  renderShiftGrid(ds);
+  renderEditEvents(ds);
+  document.getElementById('edit-memo-input').value = memos[ds]||'';
+  document.getElementById('edit-memo-display').textContent = '';
+  document.getElementById('edit-overlay').classList.add('show');
+}
+
+function renderShiftGrid(ds) {
+  const grid = document.getElementById('shift-grid');grid.innerHTML='';
+  const none = document.createElement('button');
+  none.className='shift-opt none-opt'+(!workSchedule[ds]?' active':'');
+  none.textContent='없음';
+  none.onclick=()=>{delete workSchedule[ds];saveUserData();renderShiftGrid(ds);renderCal();showToast('근무 일정 삭제됨');};
+  grid.appendChild(none);
+  const allTypes = getEffectiveShiftConfig();
+  Object.entries(allTypes).forEach(([key,sc])=>{
+    const btn=document.createElement('button');
+    btn.className='shift-opt'+(workSchedule[ds]===key?' active':'');
+    btn.textContent=sc.label;btn.title=sc.time;
+    if (sc.color) {
+      btn.style.cssText = workSchedule[ds]===key
+        ? `border-color:${sc.color};background:${sc.color}22;color:${sc.color};`
+        : '';
+      btn.onmouseenter = () => { if (workSchedule[ds]!==key) btn.style.cssText=`border-color:${sc.color};background:${sc.color}15;color:${sc.color};`; };
+      btn.onmouseleave = () => { if (workSchedule[ds]!==key) btn.style.cssText=''; };
+    }
+    btn.onclick=()=>{workSchedule[ds]=key;saveUserData();renderShiftGrid(ds);renderCal();showToast('✅ '+sc.label+' ('+sc.time+') 저장됨');};
+    grid.appendChild(btn);
+  });
+  renderCustomShiftDisplay(ds);
+}
+
+function renderCustomShiftDisplay(ds) {
+  const wrap = document.getElementById('custom-shift-display');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  const val = workSchedule[ds];
+  if (val && !SHIFT_CONFIG[val]) {
+    const pill = document.createElement('div');
+    pill.className = 'custom-shift-pill';
+    pill.innerHTML = `✏️ ${val} <button onclick="deleteCustomShift('${ds}')" title="삭제">✕</button>`;
+    wrap.appendChild(pill);
+  }
+}
+
+function saveCustomShift() {
+  if (!editDs) return;
+  const inp = document.getElementById('custom-shift-input');
+  const val = (inp.value||'').trim();
+  if (!val) { showToast('근무 내용을 입력해 주세요','warn'); return; }
+  workSchedule[editDs] = val;
+  inp.value = '';
+  saveUserData();
+  renderShiftGrid(editDs);
+  renderCal();
+  showToast('✅ 커스텀 근무 "'+val+'" 저장됨');
+}
+
+function deleteCustomShift(ds) {
+  delete workSchedule[ds];
+  saveUserData();
+  renderShiftGrid(ds);
+  renderCal();
+  showToast('커스텀 근무 삭제됨');
+}
+
+function renderEditEvents(ds) {
+  const list = document.getElementById('edit-events-list');list.innerHTML='';
+  const month = parseInt(ds.slice(5,7));
+  const dayData = buildDayMap(2026,month)[ds]||{regular:[],vod:[]};
+  const {regular=[]} = dayData;
+  if(regular.length===0){list.innerHTML='<div class="edit-no-events">이 날 수업·시험 일정 없음</div>';return;}
+  const typeStyle={
+    '출석':'background:rgba(37,99,235,.1);color:#1d4ed8',
+    '화상':'background:rgba(124,58,237,.1);color:#6d28d9',
+    '중간':'background:rgba(217,119,6,.1);color:#b45309',
+    '기말':'background:rgba(229,62,110,.1);color:#be123c',
+  };
+  regular.forEach((ev,idx)=>{
+    const info=SUBJS[ev.s];if(!info)return;
+    const row=document.createElement('div');row.className='edit-ev-row';row.id='ev-row-'+idx;
+    row.innerHTML=`
+      <div class="edit-ev-dot" style="background:${info.color}"></div>
+      <div class="edit-ev-info">
+        <div class="edit-ev-name">${ev.s} <span style="font-size:9px;padding:1px 6px;border-radius:4px;${typeStyle[ev.type]||''}">${ev.type}</span></div>
+        <div class="edit-ev-meta">${ev.time||'시간 미정'} ${ev.room?'· 📍'+ev.room:''}</div>
+      </div>
+      <button class="edit-btn" onclick="toggleEditForm(${idx},'${ds}')">수정</button>`;
+    const form=document.createElement('div');form.className='edit-inline';form.id='edit-form-'+idx;form.style.display='none';
+    form.innerHTML=`
+      <div class="edit-field"><div class="edit-label">시간</div><input class="edit-input" id="et-${idx}" value="${ev.time||''}" placeholder="19:00~22:00"></div>
+      <div class="edit-field"><div class="edit-label">강의실</div><input class="edit-input" id="er-${idx}" value="${ev.room||''}" placeholder="다산관 330"></div>
+      <div style="display:flex;gap:6px;justify-content:flex-end;">
+        <button class="edit-btn" onclick="cancelEditForm(${idx})">취소</button>
+        <button class="edit-save-btn" onclick="saveEventEdit(${idx},'${ds}')">저장</button>
+      </div>`;
+    const wrap=document.createElement('div');wrap.appendChild(row);wrap.appendChild(form);
+    list.appendChild(wrap);
+  });
+}
+
+function toggleEditForm(idx,ds) {
+  document.querySelectorAll('.edit-inline').forEach(f=>f.style.display='none');
+  const f=document.getElementById('edit-form-'+idx);if(f)f.style.display='flex';
+}
+function cancelEditForm(idx) { const f=document.getElementById('edit-form-'+idx);if(f)f.style.display='none'; }
+
+function saveEventEdit(idx,ds) {
+  const newTime=(document.getElementById('et-'+idx)||{}).value||'';
+  const newRoom=(document.getElementById('er-'+idx)||{}).value||'';
+  const month=parseInt(ds.slice(5,7));
+  const dayData=buildDayMap(2026,month)[ds]||{regular:[]};
+  const ev=dayData.regular[idx];if(!ev)return;
+  const ri=RAW.findIndex(r=>r.s===ev.s&&r.type===ev.type&&r.date===ev.date);
+  if(ri>=0){if(newTime)RAW[ri].time=newTime;if(newRoom)RAW[ri].room=newRoom;}
+  showToast('✅ '+ev.s+' '+ev.type+' 일정 수정됨');
+  cancelEditForm(idx);
+  saveUserData();
+  renderEditEvents(ds);
+  renderCal();
+  if(calViewMode==='week')renderWeekCal();
+}
+
+function saveMemo() {
+  if(!editDs)return;
+  const val=(document.getElementById('edit-memo-input')||{}).value||'';
+  const trimmed=val.trim();
+  if(trimmed){memos[editDs]=trimmed;showToast('📝 메모 저장됨');}
+  else{delete memos[editDs];showToast('메모 삭제됨');}
+  document.getElementById('edit-memo-display').textContent=trimmed?'저장됨: '+trimmed:'';
+  saveUserData();renderCal();if(calViewMode==='week')renderWeekCal();
+}
+
+function closeEditModal() {
+  document.getElementById('edit-overlay').classList.remove('show');
+  editDs=null;
+  if(calViewMode==='week') renderWeekCal();
+  else renderCal();
+}
+
+
+// ════════════════════════════════════════
+//  WEEK/MONTH VIEW TOGGLE
+// ════════════════════════════════════════
+let calViewMode = 'month';
+let curWeekStart = null; // Date object, Monday of current week
+
+function getWeekStart(date) {
+  const d = new Date(date);
+  // Week starts on Sunday
+  const day = d.getDay(); // 0=Sun
+  d.setDate(d.getDate() - day);
+  d.setHours(0,0,0,0);
+  return d;
+}
+
+function setCalView(mode) {
+  calViewMode = mode;
+  document.getElementById('vtog-month').classList.toggle('active', mode==='month');
+  document.getElementById('vtog-week').classList.toggle('active', mode==='week');
+  document.getElementById('cal-wrap').style.display = mode==='month' ? '' : 'none';
+  document.getElementById('week-grid-wrap').style.display = mode==='week' ? '' : 'none';
+  if (mode==='week') {
+    if (!curWeekStart) curWeekStart = getWeekStart(new Date(today));
+    renderWeekCal();
+  }
+}
+
+function navWeek(dir) {
+  if (!curWeekStart) curWeekStart = getWeekStart(new Date(today));
+  curWeekStart.setDate(curWeekStart.getDate() + dir*7);
+  renderWeekCal();
+}
+
+function renderWeekCal() {
+  const wrap = document.getElementById('week-grid-wrap');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  if (!curWeekStart) curWeekStart = getWeekStart(new Date(today));
+  const ws = new Date(curWeekStart);
+  const we = new Date(ws); we.setDate(we.getDate()+6);
+  const pad2 = n => String(n).padStart(2,'0');
+  const fmtDate = d => `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+  const WD_LABELS = ['일','월','화','수','목','금','토'];
+  
+  // Nav row
+  const navRow = document.createElement('div');
+  navRow.className = 'week-nav-row';
+  const wsM = ws.getMonth()+1, weM = we.getMonth()+1;
+  const rangeLabel = wsM===weM
+    ? `${ws.getFullYear()}년 <em>${wsM}월</em> ${ws.getDate()}일 – ${we.getDate()}일`
+    : `${ws.getFullYear()}년 <em>${wsM}월</em> ${ws.getDate()}일 – <em>${weM}월</em> ${we.getDate()}일`;
+  navRow.innerHTML = `
+    <button class="week-nav-btn" onclick="navWeek(-1)">◀</button>
+    <div class="week-label">${rangeLabel}</div>
+    <button class="week-nav-btn" onclick="navWeek(1)">▶</button>
+    <button class="week-nav-btn" onclick="goToTodayWeek()" style="width:auto;padding:0 10px;font-size:10px;font-family:'Gowun Dodum',sans-serif;font-weight:700;">오늘</button>`;
+  wrap.appendChild(navRow);
+
+  // Build day array Sun~Sat
+  const days = [];
+  for (let i=0;i<7;i++) { const d=new Date(ws); d.setDate(d.getDate()+i); days.push(d); }
+
+  // Build dayMap covering all months spanned
+  const yearMonths = [...new Set(days.map(d=>d.getFullYear()*100+(d.getMonth()+1)))];
+  let dayMap = {};
+  yearMonths.forEach(ym => {
+    const yr=Math.floor(ym/100), mo=ym%100;
+    Object.assign(dayMap, buildDayMap(yr, mo));
+  });
+
+  // Grid
+  const grid = document.createElement('div');
+  grid.className = 'week-grid';
+
+  // Header row (Sun ~ Sat)
+  days.forEach(d => {
+    const col = d.getDay();
+    const cls = col===0 ? 'sun' : col===6 ? 'sat' : '';
+    const ds = fmtDate(d);
+    const isToday = ds===today;
+    const hdr = document.createElement('div');
+    hdr.className = 'week-day-hdr';
+    hdr.style.cursor='pointer';
+    hdr.innerHTML = `<div class="week-day-name ${cls}">${WD_LABELS[col]}</div><div class="week-day-num ${cls}${isToday?' is-today':''}">${d.getDate()}</div>`;
+    hdr.onclick = () => openEditModal(ds);
+    grid.appendChild(hdr);
+  });
+
+  // Content columns
+  days.forEach(d => {
+    const col = d.getDay();
+    const ds = fmtDate(d);
+    const isToday = ds===today;
+    const colDiv = document.createElement('div');
+    colDiv.className = 'week-col'+(isToday?' today-col':col===0?' sun-col':col===6?' sat-col':'');
+
+    let hasContent = false;
+
+    // Shift pill (근무일정)
+    if (workSchedule[ds]) {
+      hasContent = true;
+      const key = workSchedule[ds];
+      const sc = SHIFT_CONFIG[key];
+      const custom = customShiftTypes[key];
+      const sp = document.createElement('div');
+      if (sc) {
+        sp.className='shift-pill '+sc.cls;
+        sp.textContent=sc.label; sp.title=sc.time;
+      } else if (custom) {
+        sp.className='shift-pill';
+        sp.style.cssText=`background:${custom.color}22;color:${custom.color};border-left-color:${custom.color};`;
+        sp.textContent=key; sp.title=custom.time||'';
+      } else {
+        sp.className='shift-pill shift-custom';
+        sp.textContent=key;
+      }
+      sp.onclick=ev=>{ev.stopPropagation();openEditModal(ds);};
+      colDiv.appendChild(sp);
+    }
+
+    // Memo
+    if (memos[ds]) {
+      hasContent = true;
+      const mp = document.createElement('div');
+      mp.style.cssText='font-size:8px;color:var(--mu);padding:1px 4px;margin-bottom:2px;background:var(--bg);border-radius:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-left:2px solid var(--border2);cursor:pointer;';
+      mp.textContent='📝 '+memos[ds];
+      mp.onclick=ev=>{ev.stopPropagation();openEditModal(ds);};
+      colDiv.appendChild(mp);
+    }
+
+    // Course events
+    const {regular=[],vod=[]} = dayMap[ds]||{};
+    regular.forEach(ev => {
+      const info = SUBJS[ev.s]; if(!info) return;
+      hasContent = true;
+      const pill = document.createElement('div');
+      pill.className=`epill pill-${ev.type}`;
+      pill.dataset.subj=ev.s; pill.dataset.ptype=ev.type;
+      if(hiddenSubjs.has(ev.s)) pill.classList.add('subj-off');
+      if(activeTypes.size>0&&!activeTypes.has(ev.type)) pill.classList.add('type-off');
+      const ts = ev.time?ev.time.split('~')[0]:'';
+      pill.innerHTML=`<span class="edot" style="background:${info.color}"></span><span class="etxt">${info.short}</span>${ts?`<span class="etime">${ts}</span>`:''}`;
+      pill.onclick=e=>{e.stopPropagation();openPopup(ds,dayMap[ds]||{regular:[],vod:[]});};
+      colDiv.appendChild(pill);
+    });
+
+    [...new Set(vod.map(v=>v.s))].forEach(sn => {
+      const info=SUBJS[sn]; if(!info) return;
+      hasContent = true;
+      const strip=document.createElement('div');
+      strip.className='vod-strip'; strip.dataset.subj=sn; strip.dataset.ptype='VOD';
+      strip.style.cssText=`background:${info.vod};border-left-color:${info.color};color:${info.color};`;
+      if(hiddenSubjs.has(sn)) strip.classList.add('subj-off');
+      if(activeTypes.size>0&&!activeTypes.has('VOD')) strip.classList.add('type-off');
+      strip.innerHTML=`<span class="vshort">${info.short} VOD</span>`;
+      strip.onclick=e=>{e.stopPropagation();openPopup(ds,dayMap[ds]||{regular:[],vod:[]});};
+      colDiv.appendChild(strip);
+    });
+
+    if (!hasContent) {
+      const emp = document.createElement('div');
+      emp.className='week-empty'; emp.textContent='—';
+      colDiv.appendChild(emp);
+    }
+
+    colDiv.onclick = () => {
+      const dd = dayMap[ds]||{regular:[],vod:[]};
+      if(dd.regular.length>0||dd.vod.length>0||workSchedule[ds]||memos[ds]) openPopup(ds,dd);
+      else openEditModal(ds);
+    };
+    grid.appendChild(colDiv);
+  });
+
+  wrap.appendChild(grid);
+  applyViz();
+}
+
+function goToTodayWeek() {
+  curWeekStart = getWeekStart(new Date(today));
+  renderWeekCal();
+}
+
+// ════════════════════════════════════════
+//  MONTH NAV & TYPE FILTERS
+// ════════════════════════════════════════
+document.getElementById('month-nav').addEventListener('click',e=>{
+  if(!e.target.classList.contains('month-btn'))return;
+  curMonth=+e.target.dataset.month;
+  document.querySelectorAll('.month-btn').forEach(b=>b.classList.toggle('active',+b.dataset.month===curMonth));
+  renderCal();
+});
+document.getElementById('type-filters').addEventListener('click',e=>{
+  if(!e.target.classList.contains('type-btn'))return;
+  const t=e.target.dataset.type;
+  if(t==='all'){activeTypes.clear();document.querySelectorAll('.type-btn').forEach(b=>b.classList.toggle('active',b.dataset.type==='all'));}
+  else{
+    activeTypes.has(t)?activeTypes.delete(t):activeTypes.add(t);
+    if(activeTypes.size===0){document.querySelectorAll('.type-btn').forEach(b=>b.classList.toggle('active',b.dataset.type==='all'));}
+    else{document.querySelector('.type-btn[data-type="all"]').classList.remove('active');document.querySelectorAll('.type-btn:not([data-type="all"])').forEach(b=>b.classList.toggle('active',activeTypes.has(b.dataset.type)));}
+  }
+  applyViz();
+});
+
+// ════════════════════════════════════════
+//  D-DAY
+// ════════════════════════════════════════
+function getDdayEvents() {
+  const tms=new Date(today+'T00:00:00').getTime();
+  return RAW.filter(ev=>['출석','화상','중간','기말'].includes(ev.type))
+    .map(ev=>({...ev,diff:Math.round((new Date(ev.date+'T00:00:00').getTime()-tms)/86400000)}))
+    .filter(ev=>ev.diff>=-1).sort((a,b)=>a.diff-b.diff);
+}
+function ddayLabel(diff) {
+  if(diff===0)return{val:'D-Day',cls:'is-today'};
+  if(diff<0)return{val:`D+${Math.abs(diff)}`,cls:''};
+  if(diff<=1)return{val:`D-${diff}`,cls:'urg-0'};
+  if(diff<=3)return{val:`D-${diff}`,cls:'urg-3'};
+  if(diff<=7)return{val:`D-${diff}`,cls:'urg-7'};
+  return{val:`D-${diff}`,cls:''};
+}
+function renderDday() {
+  const items=getDdayEvents();
+  const scroll=document.getElementById('dday-scroll');scroll.innerHTML='';
+  const uc=items.filter(i=>i.diff>=0&&i.diff<=7).length;
+  const badge=document.getElementById('bell-badge'),bellBtn=document.getElementById('bell-btn');
+  if(uc>0){badge.textContent=uc;badge.style.display='flex';bellBtn.classList.add('has-urgent');}
+  else{badge.style.display='none';bellBtn.classList.remove('has-urgent');}
+  if(!items.length){scroll.innerHTML='<div class="dday-empty">예정된 일정이 없습니다</div>';return;}
+  const secs=[
+    {label:'🔴 오늘 · 내일',items:items.filter(i=>i.diff>=0&&i.diff<=1)},
+    {label:'🟡 이번 주 (D-7 이내)',items:items.filter(i=>i.diff>=2&&i.diff<=7)},
+    {label:'📅 이후 일정',items:items.filter(i=>i.diff>7)},
+    {label:'✓ 지난 일정',items:items.filter(i=>i.diff<0)},
+  ];
+  secs.forEach(sec=>{
+    if(!sec.items.length)return;
+    const t=document.createElement('div');t.className='dday-sec-title';t.textContent=sec.label;scroll.appendChild(t);
+    sec.items.forEach(ev=>{
+      const info=SUBJS[ev.s];if(!info)return;
+      const{val,cls}=ddayLabel(ev.diff);
+      const d=new Date(ev.date+'T00:00:00');
+      const dl=`${d.getMonth()+1}/${d.getDate()} (${WD[d.getDay()]})`;
+      const card=document.createElement('div');card.className=`dday-card ${cls}`;
+      card.innerHTML=`<div class="dday-sdot" style="background:${info.color}"></div><div class="dday-info"><div class="dday-subj">${ev.s}<span class="dday-type-badge badge-${ev.type}">${ev.type}</span></div><div class="dday-meta">${info.prof?'👨‍🏫 '+info.prof+'  ·  ':''}${dl}  ·  ${ev.time||'미정'}<br>${ev.room?'📍 '+ev.room:''}</div></div><div class="dday-num"><div class="dval">${val}</div><div class="dlabel">${ev.diff===0?'TODAY':ev.diff<0?'종료':'남음'}</div></div>`;
+      card.onclick=()=>{curMonth=d.getMonth()+1;document.querySelectorAll('.month-btn').forEach(b=>b.classList.toggle('active',+b.dataset.month===curMonth));renderCal();closeDday();};
+      scroll.appendChild(card);
+    });
+  });
+}
+function openDday() {
+  const s=new Date('2026-03-03'),e=new Date('2026-06-20'),n=new Date();
+  const pct=Math.min(100,Math.max(0,Math.round((n-s)/(e-s)*100)));
+  document.getElementById('sem-bar').style.width=pct+'%';
+  document.getElementById('sem-pct').textContent=pct+'% 진행';
+  renderDday();
+  document.getElementById('dday-overlay').classList.add('show');
+  document.getElementById('dday-panel').classList.add('open');
+}
+function closeDday() {
+  document.getElementById('dday-overlay').classList.remove('show');
+  document.getElementById('dday-panel').classList.remove('open');
+}
+function initBell() {
+  const uc=getDdayEvents().filter(i=>i.diff>=0&&i.diff<=7).length;
+  if(uc>0){document.getElementById('bell-badge').textContent=uc;document.getElementById('bell-badge').style.display='flex';document.getElementById('bell-btn').classList.add('has-urgent');}
+}
+
+// ════════════════════════════════════════
+//  MOBILE SIDEBAR TOGGLE
+// ════════════════════════════════════════
+function toggleMobileSidebar() {
+  const sb = document.querySelector('.sidebar');
+  if (!sb) return;
+  const isVisible = sb.style.display === 'block';
+  sb.style.display = isVisible ? 'none' : 'block';
+  // backdrop
+  let bd = document.getElementById('sb-backdrop');
+  if (!isVisible) {
+    if (!bd) {
+      bd = document.createElement('div');
+      bd.id = 'sb-backdrop';
+      bd.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,51,.4);z-index:549;backdrop-filter:blur(2px);';
+      bd.onclick = () => { sb.style.display='none'; bd.remove(); };
+      document.body.appendChild(bd);
+    }
+  } else {
+    if (bd) bd.remove();
+  }
+}
+function checkMobile() {
+  const isMobile = window.innerWidth <= 768;
+  const mBtn = document.getElementById('mobile-sidebar-btn');
+  const sb = document.querySelector('.sidebar');
+  if (mBtn) mBtn.style.display = isMobile ? 'flex' : 'none';
+  if (isMobile && sb) sb.style.display = 'none';
+}
+window.addEventListener('resize', ()=>{
+  checkMobile();
+  // Re-render active view on significant resize
+  if(document.getElementById('cal-view').classList.contains('active')){
+    if(calViewMode==='week') renderWeekCal(); else renderCal();
+  }
+});
+window.addEventListener('orientationchange',()=>{
+  setTimeout(()=>{
+    checkMobile();
+    if(document.getElementById('cal-view').classList.contains('active')){
+      if(calViewMode==='week') renderWeekCal(); else renderCal();
+    }
+  },200);
+});
+checkMobile();
+
+// ════════════════════════════════════════
+//  TOAST
+// ════════════════════════════════════════
+let toastTimer;
+function showToast(msg, type='ok') {
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast show'+(type==='warn'?' warn':'');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),2400);
+}
+
+// ════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════
+// Auto-init without login
+currentUser = 'me';
+loadUserData();
+document.getElementById('user-display-name').textContent = '내 플래너';
+document.getElementById('user-av').textContent = '직';
+renderRegList();
+renderSelectedPanel();
+renderTimetable();
+renderShiftTypeLegend();
+renderColorPicker();
+document.querySelectorAll('.month-btn').forEach(b=>b.classList.toggle('active',+b.dataset.month===curMonth));
+</script>
+</body>
+</html>
